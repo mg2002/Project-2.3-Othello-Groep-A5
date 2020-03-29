@@ -1,3 +1,6 @@
+package code.applicatie;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameType {
@@ -6,7 +9,7 @@ public class GameType {
     private Boolean turn, end;
     private Communication comm;
 
-    public GameType(){
+    public GameType() throws IOException, InterruptedException {
         end = false;
         turn = true;    //false == player one's (white) turn. true == player two's (black) turn
 
@@ -58,7 +61,7 @@ public class GameType {
             turn = true;
             System.out.println("Humans Turn = ");
             if(players.get(0).getActive() == 1){
-                temp = comm.getMove();
+                //temp = comm.getMove();
             }else {
                 temp = players.get(0).getMove();
             }
