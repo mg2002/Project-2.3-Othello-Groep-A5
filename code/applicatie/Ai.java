@@ -83,7 +83,6 @@ public class Ai implements Player{
                     highest = entry.getValue();
                 }
             }
-            System.out.println(entry.getKey() + "poss");
             entry.getValue().setValue(0);
         }
         return highest;
@@ -110,9 +109,6 @@ public class Ai implements Player{
                 if(newRow < 8 && newRow > -1){
                     if(nodes.get(spot).getPlayer() == null){
                         newSpot = 8*newRow+newCol;
-                        if(spot == 37){
-                            System.out.println("a");
-                        }
                         if(isLegalMove(movement.get(i), nodes, newCol, newRow)){
                             legitNodes.put(spot,nodes.get(spot));
                         }

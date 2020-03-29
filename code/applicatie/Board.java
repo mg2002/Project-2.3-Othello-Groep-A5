@@ -65,6 +65,7 @@ public class Board {
     }
 
     public void doMove(int move, Player player){
+        System.out.println(move);
         tilesToTurn.clear();
         lookAround(move, player);
 
@@ -85,7 +86,6 @@ public class Board {
             newCol = col + movement.get(i).get(0);
             if(newCol < 8 && newCol > -1){
                 newRow = row + movement.get(i).get(1);
-                System.out.println(newRow);
                 if(newRow < 8 && newRow > -1){
                     if(nodes.get(spot).getPlayer() == null){
                         tilesToTurn.add(spot);
@@ -112,7 +112,6 @@ public class Board {
                     if (nodes.get(possibleSpot).getPlayer().getSide() == player.getSide()) {
                         return possible;
                     } else {
-                        System.out.println(row * 8 + col);
                         possible.add(row * 8 + col);
                         col = col + move.get(0);
                         row = row + move.get(1);
