@@ -1,5 +1,7 @@
 package code.applicatie;
 
+import code.applicatie.command.server.*;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -10,26 +12,48 @@ public class Communication {
     private PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
     private BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-    public Communication() throws IOException, InterruptedException {
+    public Communication() throws IOException {
         // Eerste twee regels zijn copyright en nog iets randoms dus dat kan wel hardcoded hihi
-        System.out.println(bufferedReader.readLine());
-        System.out.println(bufferedReader.readLine());
-//        while(true){
-//            System.out.println(bufferedReader.ready());
-//            Thread.sleep(100);
-//        }
-        System.out.println(login("klees"));
-        System.out.println(subscribe("Tic-tac-toe"));
-        gameStart();
-        gameYourTurn();
-        doMove(1);
-        getMove();
+        readLine();
+        readLine();
+    }
+
+    public ServerCommand awaitServerCommand() throws IOException {
+        var data = readLine();
+        if (!data.startsWith("SVR GAME")) {
+            throw new IllegalStateException("Onverwacht bericht van server :( " + data);
+        } else {
+            var args = data.split("\"");
+            var command = data.split(" ")[2];
+            switch (command) {
+                case "MATCH":
+                    String playerToMove = args[1];
+                    String gameName = args[3];
+                    String opponent = args[5];
+                    return new GameStart(playerToMove, gameName, opponent);
+                case "YOURTURN":
+                    String turnMessage = args[1];
+                    return new YourTurn(turnMessage);
+                case "MOVE":
+                    String playerName = args[1];
+                    String move = args[3];
+                    String details = args[5];
+                    return new GetMove(playerName, move, details);
+                case "WIN":
+                case "LOSS":
+                    String playerOneScore = args[1];
+                    String playerTwoScore = args[3];
+                    String comment = args[5];
+                    boolean hasWon = command.equals("WIN");
+                    return new GameEnd(playerOneScore, playerTwoScore, comment, hasWon);
+                default:
+                    throw new IllegalStateException("No command found" + data);
+            }
+        }
     }
 
     /**
-     * @param playerName
      * @return returns whether login was successful
-     * @throws IOException
      */
     public boolean login(String playerName) throws IOException {
         String sendMessage = String.format("login %s", playerName);
@@ -38,9 +62,7 @@ public class Communication {
     }
 
     /**
-     * @param gameName
      * @return returns whether subscribing to a game has been successful
-     * @throws IOException
      */
     public boolean subscribe(String gameName) throws IOException {
         String sendMessage = String.format("subscribe %s", gameName);
@@ -51,43 +73,6 @@ public class Communication {
     public boolean forfeit() throws IOException {
         writeLine("forfeit");
         return readLine().equals("OK");
-    }
-
-    public GameStart gameStart() throws IOException, IllegalStateException {
-        var data = readLine();
-        if (!data.startsWith("SVR GAME MATCH")) {
-            throw new IllegalStateException("Not in a match: " + data);
-        } else {
-            var j = data.split("\"");
-            //alle array posities zijn hetzelfde dus mag hardcode
-            String playerToMove = j[1];
-            String gameName = j[3];
-            String opponent = j[5];
-            return new GameStart(playerToMove, gameName, opponent);
-        }
-    }
-
-    public String gameYourTurn() throws IOException {
-        var data = readLine();
-        if (!data.startsWith("SVR GAME YOURTURN")) {
-            throw new IllegalStateException("stuk" + data);
-        } else {
-            var j = data.split("\"");
-            return j[1];
-        }
-    }
-
-    public GetMove getMove() throws IOException {
-        var data = readLine();
-        if (!data.startsWith("SVR GAME MOVE")) {
-            throw new IllegalStateException("Stuk " + data);
-        } else {
-            var j = data.split("\"");
-            String playerName = j[1];
-            String move = j[3];
-            String details = j[5];
-            return new GetMove(playerName, move, details);
-        }
     }
 
     public boolean doMove(int pos) throws IOException {

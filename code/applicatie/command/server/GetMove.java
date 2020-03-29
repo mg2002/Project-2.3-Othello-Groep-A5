@@ -1,8 +1,8 @@
-package code.applicatie;
+package code.applicatie.command.server;
 
 import java.util.Objects;
 
-public class GetMove {
+public class GetMove extends ServerCommand{
     private final String playerName;
     private final String move;
     private final String details;

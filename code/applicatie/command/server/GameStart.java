@@ -1,13 +1,13 @@
-package code.applicatie;
+package code.applicatie.command.server;
 
 import java.util.Objects;
 
-public class GameStart {
+public class GameStart extends ServerCommand{
     private final String playerToMove;
     private final String gameName;
     private final String opponent;
 
-    GameStart(String playerToMove, String gameName, String opponent){
+    public GameStart(String playerToMove, String gameName, String opponent){
         this.playerToMove = playerToMove;
         this.gameName = gameName;
         this.opponent = opponent;
