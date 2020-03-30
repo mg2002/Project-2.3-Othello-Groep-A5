@@ -4,10 +4,22 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class Board {
+    private int boardSize;
+    private Player pOne, pTwo;
     private ArrayList<Node> nodes;
     private ArrayList<ArrayList<Integer>> movement = new ArrayList<>();// x, y
     private HashSet<Integer> tilesToTurn = new HashSet<>();
+    public Board(){
+        nodes = new ArrayList<>(9);
+        boardSize = 3;
+        for(int i = 0; i < 9; i++) {
+            Node node = new Node(i);
+            nodes.add(node);
+        }
+    }
+
     public Board(Player One, Player Two){
+        boardSize = 8;
         nodes = new ArrayList<>(64);
         for(int i = 0; i < 8*8; i++){
             Node node = new Node(i);
@@ -18,7 +30,6 @@ public class Board {
             }
             nodes.add(node);
         }
-
         ArrayList<Integer> up           = new ArrayList<>();
         ArrayList<Integer> upRight      = new ArrayList<>();
         ArrayList<Integer> upLeft       = new ArrayList<>();
@@ -56,7 +67,7 @@ public class Board {
 
     public void getBoardState(){
         for(int i = 0; i < nodes.size(); i++) {
-            if(i % 8 == 0){
+            if(i % boardSize == 0){
                 System.out.println("\u001b[0m" + i);
             }
             System.out.print(nodes.get(i).getPlayerName() + " ");
@@ -67,11 +78,12 @@ public class Board {
     public void doMove(int move, Player player){
         System.out.println(move);
         tilesToTurn.clear();
-        lookAround(move, player);
+        tilesToTurn.add(move);
+        /*lookAround(move, player);// DIT GEDEELTE NAAR GAMETYPE VERPLAATSTEN VOOR REVERSI
 
         if(nodes.get(move).getPlayer() == null) {
             tilesToTurn.add(move);
-        }
+        }*/
         for(int i : tilesToTurn){
             nodes.get(i).setPlayer(player);
         }
@@ -122,6 +134,11 @@ public class Board {
         possible.clear();
         return possible;
     }
+
+    public void setPlayerOne(Player p){pOne = p;}
+    public void setPlayerTwo(Player p){pTwo = p;}
+    public Player getPlayerOne(){return pOne;}
+    public Player getPlayerTwo(){return pTwo;}
 
     public ArrayList<Node> getNodes(){return nodes;}
     public void setNode(int spot, Player player){

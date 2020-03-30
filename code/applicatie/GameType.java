@@ -44,6 +44,7 @@ public class GameType {
         int temp = -1;
         gameboard.getBoardState();
         Player p;
+
         if(turn){
             //Ai's turn
             turn = false;

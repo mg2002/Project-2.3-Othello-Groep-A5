@@ -5,7 +5,7 @@ public class Game {
 
     }
     public static void main(String[] agrs){
-        GameType game = new GameType();
+        TicTacToe game = new TicTacToe();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("What side am i?");
