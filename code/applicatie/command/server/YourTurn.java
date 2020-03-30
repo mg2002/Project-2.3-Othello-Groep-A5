@@ -2,6 +2,12 @@ package code.applicatie.command.server;
 
 import java.util.Objects;
 
+/**
+ * Stores turnMessage into an Object
+ *
+ * @author Merel Foekens
+ * @version 1.1
+ */
 public class YourTurn extends ServerCommand {
     private final String turnMessage;
 

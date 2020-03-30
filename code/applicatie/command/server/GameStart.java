@@ -2,6 +2,12 @@ package code.applicatie.command.server;
 
 import java.util.Objects;
 
+/**
+ * Stores information such as playerToMove, gameName and opponent into an Object when a game starts.
+ *
+ * @author Merel Foekens
+ * @version 1.1
+ */
 public class GameStart extends ServerCommand{
     private final String playerToMove;
     private final String gameName;

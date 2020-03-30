@@ -2,6 +2,12 @@ package code.applicatie.command.server;
 
 import java.util.Objects;
 
+/**
+ * Stores information about playerOneScore, playerTwoScore, comment and hasWon when the game ends.
+ *
+ * @author Merel Foekens
+ * @version 1.1
+ */
 public class GameEnd extends ServerCommand {
     private final String playerOneScore;
     private final String playerTwoScore;

@@ -2,6 +2,13 @@ package code.applicatie.command.server;
 
 import java.util.Objects;
 
+/**
+ * Stores information such as playerName, move and details into an Object when the server reports of the opponent having
+ * done a move
+ *
+ * @author Merel Foekens
+ * @version 1.1
+ */
 public class GetMove extends ServerCommand{
     private final String playerName;
     private final String move;

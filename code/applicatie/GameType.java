@@ -9,7 +9,7 @@ public class GameType {
     private Boolean turn, end;
     private Communication comm;
 
-    public GameType() throws IOException, InterruptedException {
+    public GameType() throws IOException {
         end = false;
         turn = true;    //false == player one's (white) turn. true == player two's (black) turn
 
@@ -61,6 +61,7 @@ public class GameType {
             turn = true;
             System.out.println("Humans Turn = ");
             if(players.get(0).getActive() == 1){
+                //getMove is geen methode meer
                 //temp = comm.getMove();
             }else {
                 temp = players.get(0).getMove();
