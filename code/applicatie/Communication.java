@@ -30,6 +30,7 @@ public class Communication {
         // Eerste twee regels zijn copyright en nog iets randoms dus dat kan wel hardcoded.
         readLine();
         readLine();
+        sendChallenge("f", "as");
     }
 
     /**
@@ -126,29 +127,29 @@ public class Communication {
     /**
      * @param playerToChallenge name of the player you want to challenge
      * @param gameName          name of the game you want to play
-     * @return whether challenge was succesful
+     * @return whether challenge was successful
      */
     public boolean sendChallenge(String playerToChallenge, String gameName) throws IOException {
-        writeLine("challenge " + "\"" + playerToChallenge + "\" " + "\"" + gameName + "\"");
+        writeLine(String.format("challenge \"%s\" \"%s\"", playerToChallenge, gameName));
         String data = readLine();
         if (data.equals("OK")) {
             return true;
         } else {
             var args = data.split(" ");
-            if (args[2].equals("player")) {
+            if (args[2].equals("player:")) {
                 System.out.println("Onbekende speler");
                 return false;
-            } else if (args[2].equals("game")) {
+            } else if (args[2].equals("game:")) {
                 System.out.println("Onbekend spel");
                 return false;
             }
-            throw new IllegalStateException("Onbekende error " + data);
+        else throw new IllegalStateException("Error: " + data);
         }
     }
 
     /**
      * @param challengeNum number of the challenge you want to accept
-     * @return whether succesful challenge number was sent
+     * @return whether successful challenge number was sent
      */
     public boolean challengeAccept(String challengeNum) throws IOException {
         writeLine("challenge accept " + challengeNum);
