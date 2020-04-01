@@ -1,3 +1,5 @@
+package applicatie;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +24,7 @@ public class Tai implements Player{
     public void getNodes(){
         nodes = board.getNodes();
     }
-
+    
     @Override
     public int getMove(){
         getNodes();
@@ -46,8 +48,58 @@ public class Tai implements Player{
         asingValues();
         return findHighestTile();
     }
-
-
+    
+    public void nextMinimaxMove() {
+        int bestMoveValue = 0;
+    }
+    
+    // @TODO Alpha/Beta-pruning
+    //      public int minimax(Node node, int depth, int alpha, int beta, boolean isMaxing) {
+    
+    /**
+     * Minimax is an algorithm that tries to find the best possible move for the Player who utilizes it.
+     * this method is called on a specific Node, which gives it a value based on favor.
+     * A node with a higher value means that making a move on this Node gives the Player a better chance of winning.
+     *
+     * @param node
+     * @param depth
+     * @param isMaxing
+     * @param legitNodes
+     * @return  value of the Node
+     */
+    public int minimax(Node node, int depth, boolean isMaxing, HashMap<Integer, Node> legitNodes) {
+        HashMap<Integer, Node> legitNodesClone = legitNodes;
+        // if the root node is given, or winning move is found { return static value of the position }
+        if (depth <= 0 || isWinningMove(node.getSpot())) {
+            return node.getValue();
+            // return value of ;
+        }
+        if (isMaxing) { // Player's turn who wins by high evaluation
+            int maxEval = -99999; // if Player finds move with higher eval, saves value for comparison
+            for (Map.Entry<Integer, Node> entry : legitNodesClone.entrySet()) {
+                int childEval = minimax(entry.getValue(), depth -1, false, legitNodesClone);
+                maxEval = Math.max(maxEval, childEval);
+                // int alpha = Math.max(alpha, childEval);
+                // if (beta <= alpha) { break; }
+            }
+            return maxEval;
+        }
+        else { // Player's turn who wins by low evaluation
+            int minEval = 99999; // if Player finds move with lower eval, saves value for comparison
+            for (Map.Entry<Integer, Node> entry : legitNodesClone.entrySet()) {
+                int childEval = minimax(entry.getValue(), depth -1, true, legitNodesClone);
+                minEval = Math.min(minEval, childEval);
+                // int beta = Math.max(beta, childEval);
+                // if (beta <= alpha) { break; }
+            }
+            return minEval;
+        }
+    }
+    
+    private boolean isWinningMove(int spot) {
+        return false;
+    }
+    
     public void lookAround(int spot, ArrayList<Node> nodes){
         if(nodes.get(spot).getPlayer() == null){
             legitNodes.put(legitNodes.size(),nodes.get(spot));
@@ -72,6 +124,7 @@ public class Tai implements Player{
             Node n = legitNodes.get(i);
             int j = n.getSpot();
             if(block == -1) {
+                //
                 if (side == 1 || (stratToUse == 2 && side == 0)) {//Attacking
                     if (isCorner(j)) {
                         n.setValue(30);
@@ -130,8 +183,10 @@ public class Tai implements Player{
     }
 
     private Node findHighestTile(){
+        // @TODO implement minimax
         Node highest = null;
         for(Map.Entry<Integer, Node> entry : legitNodes.entrySet()) {
+            //
             if(highest == null){
                 highest = entry.getValue();
             }else {
@@ -162,6 +217,9 @@ public class Tai implements Player{
     public int getSide(){return side;}
     @Override
     public int getActive(){return active;}
+    
+    public HashMap<Integer, Node> getLegitNodes() { return legitNodes; }
+    
     @Override
     public void setPoints(int newActive){active = newActive;}
     @Override
