@@ -2,7 +2,7 @@ import javafx.stage.Stage;
 
 public interface View {
     void start(Stage stage);
-    void update();
+    void drawPlayerIcon();
+    void drawAIIcon();
     void instructions();
-    void scoreBoard();
 }

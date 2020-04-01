@@ -14,7 +14,7 @@ public class GameController {
     }
 
     public void updateViews(View view){
-        view.update();
+        //view.update();
     }
 
     public Player getPlayerOne(){

@@ -17,13 +17,13 @@ public class Game {
 
         }
     }
-    public void run(){
+    public void run() throws IOException {
         while(!game.getEnd()){
             game.step();
         }
     }
 
-    public static void main(String[] agrs){
+    public static void main(String[] agrs) throws IOException {
         Game game = new Game();
         game.run();
     }

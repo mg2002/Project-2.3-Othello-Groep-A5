@@ -1,4 +1,4 @@
-import command.server.*;
+import command.*;
 
 import java.io.*;
 import java.net.Socket;

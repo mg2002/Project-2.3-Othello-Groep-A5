@@ -19,6 +19,10 @@ public class Player {
     public void setPoints(int newActive) {
     }
 
+    public void setMove(int move){
+
+    }
+
     public void setSide(int setSide) {
     }
 

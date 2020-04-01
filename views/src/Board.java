@@ -66,6 +66,38 @@ public class Board {
             Node node = new Node(i);
             nodes.add(node);
         }
+        ArrayList<Integer> up           = new ArrayList<>();
+        ArrayList<Integer> upRight      = new ArrayList<>();
+        ArrayList<Integer> upLeft       = new ArrayList<>();
+        ArrayList<Integer> right        = new ArrayList<>();
+        ArrayList<Integer> downRight    = new ArrayList<>();
+        ArrayList<Integer> down         = new ArrayList<>();
+        ArrayList<Integer> downLeft     = new ArrayList<>();
+        ArrayList<Integer> left         = new ArrayList<>();
+        up.add(0);
+        up.add(1);
+        upRight.add(1);
+        upRight.add(1);
+        upLeft.add(-1);
+        upLeft.add(1);
+        right.add(1);
+        right.add(0);
+        down.add(0);
+        down.add(-1);
+        downLeft.add(-1);
+        downLeft.add(-1);
+        downRight.add(1);
+        downRight.add(-1);
+        left.add(-1);
+        left.add(0);
+        movement.add(up);
+        movement.add(upRight);
+        movement.add(upLeft);
+        movement.add(right);
+        movement.add(downRight);
+        movement.add(down);
+        movement.add(downLeft);
+        movement.add(left);
     }
 
 
