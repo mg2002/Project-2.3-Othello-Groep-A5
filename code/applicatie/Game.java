@@ -1,3 +1,6 @@
+package code.applicatie;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Game {
@@ -7,7 +10,6 @@ public class Game {
     Player ai, p1, p2;
 
     public Game() {
-
         System.out.println("What game would you like to play?");
         while (!assignGame(scanner.next())) {
 

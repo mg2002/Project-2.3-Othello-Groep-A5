@@ -1,3 +1,5 @@
+package code.applicatie;
+
 public class Node {
     private int spot;
     private Player player;
