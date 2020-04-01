@@ -1,8 +1,7 @@
 import java.util.Scanner;
-
 import static java.lang.Integer.parseInt;
 
-public class Human implements Player {
+public class Human extends Player {
     private int points, side, active;
     private Board board;
 

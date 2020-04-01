@@ -19,7 +19,8 @@ import java.util.Scanner;
 public class BKEView extends Application implements View {
     private Image img1;
     private Image img2;
-    private static TicTacToe game;
+    private static GameType game;
+    private static Game game2;
     private static GameController controller;
     private HashMap<Integer, StackPane> stackPanes;
 
@@ -27,7 +28,8 @@ public class BKEView extends Application implements View {
         this.img1 = new Image("x.gif");
         this.img2 = new Image("o.gif");
         stackPanes = new HashMap<>();
-        game = new TicTacToe();
+        game2 = new Game();
+        game = game2.game;
     }
 
     public void setController(){
@@ -53,9 +55,9 @@ public class BKEView extends Application implements View {
     public void start(Stage stage){
         Scanner scanner = new Scanner(System.in);
         System.out.println("What side am i?");
-        while (!game.asignSides(scanner.next())) {
-
-        }
+//        while (!game2.asignSides(scanner.next())) {
+//
+//        }
         setController();
         BorderPane bp = new BorderPane();
         GridPane pane = new GridPane();
@@ -86,12 +88,13 @@ public class BKEView extends Application implements View {
         hbox.setPadding(new Insets(20, 0, 20, 93.75));
         Label turnLabel;
         if(controller.getPlayers().get(0) instanceof Human){
-            turnLabel = new Label(getTurn()?"X's Turn!":"O's Turn!");
+            //turnLabel = new Label(getTurn()?"X's Turn!":"O's Turn!");
         }
         else{
-            turnLabel = new Label(getTurn()?"O's Turn!":"X's Turn!");
+            //turnLabel = new Label("asd");
+            //turnLabel = new Label(getTurn()?"O's Turn!":"X's Turn!");
         }
-        hbox.getChildren().add(turnLabel);
+        //hbox.getChildren().add(turnLabel);
         HBox hBox = new HBox(20);
         hBox.setPadding(new Insets(15, 12, 15, 12));
         ImageView player1icon = new ImageView(img1);
