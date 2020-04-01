@@ -30,7 +30,6 @@ public class Communication {
         // Eerste twee regels zijn copyright en nog iets randoms dus dat kan wel hardcoded.
         readLine();
         readLine();
-        sendChallenge("f", "as");
     }
 
     /**
@@ -152,7 +151,7 @@ public class Communication {
      * @return whether successful challenge number was sent
      */
     public boolean challengeAccept(String challengeNum) throws IOException {
-        writeLine("challenge accept " + challengeNum);
+        writeLine(String.format("challenge accept %s", challengeNum));
         return readLine().equals("OK");
     }
 
@@ -162,7 +161,7 @@ public class Communication {
      * @param listToGet either playerlist or gamelist
      */
     public void getList(String listToGet) throws IOException {
-        writeLine("get " + listToGet);
+        writeLine(String.format("get %s", listToGet));
         if (readLine().equals("OK")) {
             readLine();
         } else {
