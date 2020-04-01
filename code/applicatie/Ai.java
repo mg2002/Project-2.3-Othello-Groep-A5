@@ -6,7 +6,7 @@ import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
-public class Ai implements Player{
+public class Ai extends Player{
     private int points, side, active;
     private Board board;
     private ArrayList<ArrayList<Integer>> movement = new ArrayList<>();// x, y
@@ -16,7 +16,7 @@ public class Ai implements Player{
         active = 1;
         side = -1; //0 == white, 1 == black, -1 == no side asinged
         points = 2;
-        ArrayList<Integer> up           = new ArrayList<>();
+        ArrayList<Integer> up           = new ArrayList<>();//movement[0]
         ArrayList<Integer> upRight      = new ArrayList<>();
         ArrayList<Integer> upLeft       = new ArrayList<>();
         ArrayList<Integer> right        = new ArrayList<>();
@@ -85,7 +85,6 @@ public class Ai implements Player{
                     highest = entry.getValue();
                 }
             }
-            System.out.println(entry.getKey() + "poss");
             entry.getValue().setValue(0);
         }
         return highest;
@@ -99,6 +98,13 @@ public class Ai implements Player{
         }
         return findHighestTile();
     }
+
+    /**
+     *
+     * @param spot origionele locatie om te kijken of de node een legeale move kan zijn
+     * @param nodes alle nodes in de board.
+     */
+
     public void lookAround(int spot, ArrayList<Node> nodes){
         int row = (int) Math.floor(spot/8);
         int col = spot%8;
@@ -112,9 +118,6 @@ public class Ai implements Player{
                 if(newRow < 8 && newRow > -1){
                     if(nodes.get(spot).getPlayer() == null){
                         newSpot = 8*newRow+newCol;
-                        if(spot == 37){
-                            System.out.println("a");
-                        }
                         if(isLegalMove(movement.get(i), nodes, newCol, newRow)){
                             legitNodes.put(spot,nodes.get(spot));
                         }
@@ -124,6 +127,14 @@ public class Ai implements Player{
         }
     }
 
+    /**
+     *
+     * @param move the direction of the mnove in relaltion to the origional spot
+     * @param nodes the nodes array
+     * @param col colum of the spot to look at
+     * @param row row of the spot ro look at
+     * @return True is it is a legal move
+     */
     public Boolean isLegalMove(ArrayList<Integer> move, ArrayList<Node> nodes, int col, int row){
         Boolean sawOpponent = false;
         int possibleSpot;

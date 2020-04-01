@@ -28,8 +28,10 @@ public class Node {
 
     public int getValue(){return value;}
     public void setValue(int newValue){value = newValue;}
+    public void addValue(int newValue){value += newValue;}
     public int getSpot(){return spot;}
     public void setSpot(int newSpot){spot = newSpot;}
     public Player getPlayer(){return player;}
     public void setPlayer(Player newPlayer){player = newPlayer;}
+    public void reset(){player = null;value = 0;}
 }

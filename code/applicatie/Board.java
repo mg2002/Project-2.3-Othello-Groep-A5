@@ -6,21 +6,26 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class Board {
+    private int boardSize;
+    private Player pOne, pTwo;
     private ArrayList<Node> nodes;
     private ArrayList<ArrayList<Integer>> movement = new ArrayList<>();// x, y
     private HashSet<Integer> tilesToTurn = new HashSet<>();
-    public Board(Player One, Player Two){
+    public Board(){
+    }
+
+    public void reversi(){
+        boardSize = 8;
         nodes = new ArrayList<>(64);
         for(int i = 0; i < 8*8; i++){
             Node node = new Node(i);
             if(i == 27 || i == 36){
-                node.setPlayer(One);
+                node.setPlayer(pOne);
             }else if(i == 28 || i == 35){
-                node.setPlayer(Two);
+                node.setPlayer(pTwo);
             }
             nodes.add(node);
         }
-
         ArrayList<Integer> up           = new ArrayList<>();
         ArrayList<Integer> upRight      = new ArrayList<>();
         ArrayList<Integer> upLeft       = new ArrayList<>();
@@ -55,10 +60,19 @@ public class Board {
         movement.add(left);
     }
 
+    public void ticTacToe(){
+        boardSize = 3;
+        nodes = new ArrayList<>(boardSize*boardSize);
+        for(int i = 0; i < boardSize * boardSize; i++) {
+            Node node = new Node(i);
+            nodes.add(node);
+        }
+    }
+
 
     public void getBoardState(){
         for(int i = 0; i < nodes.size(); i++) {
-            if(i % 8 == 0){
+            if(i % boardSize == 0){
                 System.out.println("\u001b[0m" + i);
             }
             System.out.print(nodes.get(i).getPlayerName() + " ");
@@ -67,12 +81,14 @@ public class Board {
     }
 
     public void doMove(int move, Player player){
+        System.out.println(move);
         tilesToTurn.clear();
-        lookAround(move, player);
+        tilesToTurn.add(move);
+        /*lookAround(move, player);// DIT GEDEELTE NAAR GAMETYPE VERPLAATSTEN VOOR REVERSI
 
         if(nodes.get(move).getPlayer() == null) {
             tilesToTurn.add(move);
-        }
+        }*/
         for(int i : tilesToTurn){
             nodes.get(i).setPlayer(player);
         }
@@ -87,7 +103,6 @@ public class Board {
             newCol = col + movement.get(i).get(0);
             if(newCol < 8 && newCol > -1){
                 newRow = row + movement.get(i).get(1);
-                System.out.println(newRow);
                 if(newRow < 8 && newRow > -1){
                     if(nodes.get(spot).getPlayer() == null){
                         tilesToTurn.add(spot);
@@ -114,7 +129,6 @@ public class Board {
                     if (nodes.get(possibleSpot).getPlayer().getSide() == player.getSide()) {
                         return possible;
                     } else {
-                        System.out.println(row * 8 + col);
                         possible.add(row * 8 + col);
                         col = col + move.get(0);
                         row = row + move.get(1);
@@ -126,8 +140,18 @@ public class Board {
         return possible;
     }
 
+    public void setPlayerOne(Player p){pOne = p;}
+    public void setPlayerTwo(Player p){pTwo = p;}
+    public Player getPlayerOne(){return pOne;}
+    public Player getPlayerTwo(){return pTwo;}
+
     public ArrayList<Node> getNodes(){return nodes;}
     public void setNode(int spot, Player player){
         nodes.get(spot).setPlayer(player);
+    }
+    public void resetNodes(){
+        for(Node n : nodes){
+            n.reset();
+        }
     }
 }
