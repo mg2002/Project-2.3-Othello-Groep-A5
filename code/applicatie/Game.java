@@ -9,7 +9,7 @@ public class Game {
     GameType game = new GameType();
     Player ai, p1, p2;
 
-    public Game() {
+    public Game() throws IOException {
         System.out.println("What game would you like to play?");
         while (!assignGame(scanner.next())) {
 
@@ -25,7 +25,7 @@ public class Game {
         }
     }
 
-    public static void main(String[] agrs){
+    public static void main(String[] agrs) throws IOException {
         Game game = new Game();
         game.run();
     }
@@ -56,7 +56,7 @@ public class Game {
         return true;
     }
 
-    private Boolean assignGame(String selectedGame){
+    private Boolean assignGame(String selectedGame) throws IOException {
         switch(selectedGame){
             case("Reversi"):
                 game = new Reversi(board);

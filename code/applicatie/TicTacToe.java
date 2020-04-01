@@ -1,3 +1,5 @@
+package code.applicatie;
+
 import java.util.ArrayList;
 
 public class TicTacToe extends GameType{
