@@ -1,3 +1,7 @@
+package views.src;
+
+import code.applicatie.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
