@@ -1,26 +1,27 @@
 package code.applicatie;
 
-import code.applicatie.command.server.*;
+import code.applicatie.command.*;
+import code.applicatie.command.GameStart;
 
 import java.io.*;
 import java.net.Socket;
 
 /**
  * Class Communication
- * Communicates with server. Sends commands to server such as logIn, subscribe, forfeit, doMove.
- * For receiving information from the server, it has a 'decision' tree called awaitServerCommand.
+ * Communicates with applicatie. Sends commands to applicatie such as logIn, subscribe, forfeit, doMove.
+ * For receiving information from the applicatie, it has a 'decision' tree called awaitServerCommand.
  * <p>
- * String serverHost = IP address of server to connect to
- * int port = port of server to connect to
- * Socket socket = socket of server we want to connect to
- * PrintWriter printWriter = sending information to the server
- * BufferedReader bufferedReader = receiving information from the server
+ * String serverHost = IP address of applicatie to connect to
+ * int port = port of applicatie to connect to
+ * Socket socket = socket of applicatie we want to connect to
+ * PrintWriter printWriter = sending information to the applicatie
+ * BufferedReader bufferedReader = receiving information from the applicatie
  *
  * @author Merel Foekens
  * @version 1.2
  */
 public class Communication {
-    private static final String serverHost = "145.33.225.170";
+    private static final String serverHost = "localhost";
     private static final int port = 7789;
     private final Socket socket = new Socket(serverHost, port);
     private PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
@@ -33,7 +34,7 @@ public class Communication {
     }
 
     /**
-     * Parses lines from the server and puts useful information in a ServerCommand Object.
+     * Parses lines from the applicatie and puts useful information in a ServerCommand Object.
      *
      * @return an object with information that was read
      * @throws IOException when third word is unknown
@@ -41,7 +42,7 @@ public class Communication {
     public ServerCommand awaitServerCommand() throws IOException {
         var data = readLine();
         if (!data.startsWith("SVR GAME")) {
-            throw new IllegalStateException("Onverwacht bericht van server :( " + data);
+            throw new IllegalStateException("Onverwacht bericht van applicatie :( " + data);
         } else {
             var args = data.split("\"");
             var command = data.split(" ")[2];
@@ -73,7 +74,7 @@ public class Communication {
                     boolean hasWon = command.equals("WIN");
                     return new GameEnd(playerOneScore, playerTwoScore, comment, hasWon);
                 default:
-                    throw new IllegalStateException("No command found " + data);
+                    throw new IllegalStateException("No code.applicatie.command found " + data);
             }
         }
     }
@@ -89,7 +90,7 @@ public class Communication {
     }
 
     /**
-     * Logs out and disconnects from the server.
+     * Logs out and disconnects from the applicatie.
      */
     public void logOut() {
         writeLine("logout");
@@ -102,7 +103,8 @@ public class Communication {
     public boolean subscribe(String gameName) throws IOException {
         String sendMessage = String.format("subscribe %s", gameName);
         writeLine(sendMessage);
-        return readLine().equals("OK");
+//        return readLine().equals("OK");
+        return true;
     }
 
     /**
@@ -170,7 +172,7 @@ public class Communication {
     }
 
     /**
-     * @param data send data to server
+     * @param data send data to applicatie
      */
     private void writeLine(String data) {
         System.out.println("[SEND] " + data);
@@ -178,7 +180,7 @@ public class Communication {
     }
 
     /**
-     * @return receive data from server
+     * @return receive data from applicatie
      */
     private String readLine() throws IOException {
         var data = bufferedReader.readLine();

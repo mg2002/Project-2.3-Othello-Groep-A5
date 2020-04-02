@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,26 +10,60 @@ public class Board {
     private ArrayList<Node> nodes;
     private ArrayList<ArrayList<Integer>> movement = new ArrayList<>();// x, y
     private HashSet<Integer> tilesToTurn = new HashSet<>();
-    private boolean turn;
     public Board(){
-        nodes = new ArrayList<>(9);
-        boardSize = 3;
-        for(int i = 0; i < 9; i++) {
-            Node node = new Node(i);
-            nodes.add(node);
-        }
     }
 
-    public Board(Player One, Player Two){
+    public void reversi(){
         boardSize = 8;
         nodes = new ArrayList<>(64);
         for(int i = 0; i < 8*8; i++){
             Node node = new Node(i);
             if(i == 27 || i == 36){
-                node.setPlayer(One);
+                node.setPlayer(pOne);
             }else if(i == 28 || i == 35){
-                node.setPlayer(Two);
+                node.setPlayer(pTwo);
             }
+            nodes.add(node);
+        }
+        ArrayList<Integer> up           = new ArrayList<>();
+        ArrayList<Integer> upRight      = new ArrayList<>();
+        ArrayList<Integer> upLeft       = new ArrayList<>();
+        ArrayList<Integer> right        = new ArrayList<>();
+        ArrayList<Integer> downRight    = new ArrayList<>();
+        ArrayList<Integer> down         = new ArrayList<>();
+        ArrayList<Integer> downLeft     = new ArrayList<>();
+        ArrayList<Integer> left         = new ArrayList<>();
+        up.add(0);
+        up.add(1);
+        upRight.add(1);
+        upRight.add(1);
+        upLeft.add(-1);
+        upLeft.add(1);
+        right.add(1);
+        right.add(0);
+        down.add(0);
+        down.add(-1);
+        downLeft.add(-1);
+        downLeft.add(-1);
+        downRight.add(1);
+        downRight.add(-1);
+        left.add(-1);
+        left.add(0);
+        movement.add(up);
+        movement.add(upRight);
+        movement.add(upLeft);
+        movement.add(right);
+        movement.add(downRight);
+        movement.add(down);
+        movement.add(downLeft);
+        movement.add(left);
+    }
+
+    public void ticTacToe(){
+        boardSize = 3;
+        nodes = new ArrayList<>(boardSize*boardSize);
+        for(int i = 0; i < boardSize * boardSize; i++) {
+            Node node = new Node(i);
             nodes.add(node);
         }
         ArrayList<Integer> up           = new ArrayList<>();
@@ -71,7 +106,7 @@ public class Board {
             if(i % boardSize == 0){
                 System.out.println("\u001b[0m" + i);
             }
-            System.out.println(nodes.get(i).getPlayerName() + " ");
+            System.out.print(nodes.get(i).getPlayerName() + " ");
         }
         System.out.println("\u001b[0m");
     }
@@ -81,6 +116,7 @@ public class Board {
         tilesToTurn.clear();
         tilesToTurn.add(move);
         /*lookAround(move, player);// DIT GEDEELTE NAAR GAMETYPE VERPLAATSTEN VOOR REVERSI
+
         if(nodes.get(move).getPlayer() == null) {
             tilesToTurn.add(move);
         }*/
@@ -143,5 +179,10 @@ public class Board {
     public ArrayList<Node> getNodes(){return nodes;}
     public void setNode(int spot, Player player){
         nodes.get(spot).setPlayer(player);
+    }
+    public void resetNodes(){
+        for(Node n : nodes){
+            n.reset();
+        }
     }
 }

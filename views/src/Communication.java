@@ -5,9 +5,9 @@ import java.net.Socket;
 
 /**
  * Class Communication
- * Communicates with server. Sends commands to server such as login, subscribe, forfeit, doMove.
+ * Communicates with server. Sends commands to server such as logIn, subscribe, forfeit, doMove.
  * For receiving information from the server, it has a 'decision' tree called awaitServerCommand.
- *
+ * <p>
  * String serverHost = IP address of server to connect to
  * int port = port of server to connect to
  * Socket socket = socket of server we want to connect to
@@ -25,9 +25,10 @@ public class Communication {
     private BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
     public Communication() throws IOException {
-        // Eerste twee regels zijn copyright en nog iets randoms dus dat kan wel hardcoded hihi
+        // Eerste twee regels zijn copyright en nog iets randoms dus dat kan wel hardcoded.
         readLine();
         readLine();
+        sendChallenge("f", "as");
     }
 
     /**
@@ -57,7 +58,13 @@ public class Communication {
                     String move = args[3];
                     String details = args[5];
                     return new GetMove(playerName, move, details);
+                case "CHALLENGE":
+                    String challenger = args[1];
+                    String challengeNum = args[3];
+                    gameName = args[5];
+                    return new ChallengeReceived(challenger, challengeNum, gameName);
                 case "WIN":
+                case "DRAW":
                 case "LOSS":
                     String playerOneScore = args[1];
                     String playerTwoScore = args[3];
@@ -74,10 +81,17 @@ public class Communication {
      * @param playerName name of the player that wishes to play.
      * @return returns whether login was successful
      */
-    public boolean login(String playerName) throws IOException {
+    public boolean logIn(String playerName) throws IOException {
         String sendMessage = String.format("login %s", playerName);
         writeLine(sendMessage);
         return readLine().equals("OK");
+    }
+
+    /**
+     * Logs out and disconnects from the server.
+     */
+    public void logOut() {
+        writeLine("logout");
     }
 
     /**
@@ -99,13 +113,59 @@ public class Communication {
     }
 
     /**
-     * @param pos where player wants to put their tile
+     * @param pos where player wants to place their move
      * @return returns whether move was accepted
      */
     public boolean doMove(int pos) throws IOException {
         String sendMessage = String.format("move %s", pos);
         writeLine(sendMessage);
         return readLine().equals("OK");
+    }
+
+    /**
+     * @param playerToChallenge name of the player you want to challenge
+     * @param gameName          name of the game you want to play
+     * @return whether challenge was successful
+     */
+    public boolean sendChallenge(String playerToChallenge, String gameName) throws IOException {
+        writeLine(String.format("challenge \"%s\" \"%s\"", playerToChallenge, gameName));
+        String data = readLine();
+        if (data.equals("OK")) {
+            return true;
+        } else {
+            var args = data.split(" ");
+            if (args[2].equals("player:")) {
+                System.out.println("Onbekende speler");
+                return false;
+            } else if (args[2].equals("game:")) {
+                System.out.println("Onbekend spel");
+                return false;
+            }
+        else throw new IllegalStateException("Error: " + data);
+        }
+    }
+
+    /**
+     * @param challengeNum number of the challenge you want to accept
+     * @return whether successful challenge number was sent
+     */
+    public boolean challengeAccept(String challengeNum) throws IOException {
+        writeLine("challenge accept " + challengeNum);
+        return readLine().equals("OK");
+    }
+
+    /**
+     * get the list of possible games and logged in players
+     *
+     * @param listToGet either playerlist or gamelist
+     */
+    public void getList(String listToGet) throws IOException {
+        writeLine("get " + listToGet);
+        if (readLine().equals("OK")) {
+            readLine();
+        } else {
+            throw new IllegalStateException("Opgevraagde lijst bestaat niet");
+        }
     }
 
     /**

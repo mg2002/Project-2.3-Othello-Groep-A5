@@ -61,6 +61,9 @@ public class Tai extends Player{
     @Override
     public int getMove(){
         getNodes();
+        if(nodes.size() == 0){
+            return -1;
+        }
         if(side == -1){
             System.out.println("ERROR. Have not been given a side to play as");
             return 0;
@@ -69,7 +72,7 @@ public class Tai extends Player{
             if(n != null){
                 return n.getSpot();
             }
-            return 28;
+            return 0;
         }
     }
 
