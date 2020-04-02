@@ -1,4 +1,4 @@
-package code.applicatie.command.server;
+package code.applicatie.command;
 
 import java.util.Objects;
 

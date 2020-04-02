@@ -1,8 +1,5 @@
 package code.applicatie;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 public class GameType {
     public Boolean getEnd(){
         System.out.println("ERROR: Subclass has't implemented getEnd().");

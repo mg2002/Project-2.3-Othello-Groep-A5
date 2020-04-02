@@ -1,3 +1,6 @@
+package code.applicatie;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Reversi extends GameType{
@@ -6,7 +9,7 @@ public class Reversi extends GameType{
     private Boolean turn, end;
     private Communication comm;
 
-    public Reversi(Board newGameboard){
+    public Reversi(Board newGameboard) throws IOException {
         gameboard = newGameboard;
         end = false;
         turn = false;    //true == player one's (white) turn. false == player two's (black) turn
