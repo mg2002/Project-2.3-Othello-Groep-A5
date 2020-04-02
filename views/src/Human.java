@@ -1,34 +1,22 @@
 import java.util.Scanner;
-
 import static java.lang.Integer.parseInt;
 
-public class Human implements Player {
-    private int points, side, active;
+public class Human extends Player {
+    private int points, side, active, currentMove;
     private Board board;
 
     public Human(){
         active = 0;
         side = -1;
         points = 2;
+        currentMove = -1;
     }
 
+    public void setMove(int move){
+        this.currentMove = move;
+    }
     @Override
-    public int getMove(){
-        Boolean legit = false;
-
-        Scanner scanner = new Scanner(System.in);
-        int move = 0;
-        while(!legit){
-            legit = true;
-            try {
-                move = parseInt(scanner.next());
-            }catch(NumberFormatException e){
-                legit = false;
-            }
-        }
-        return move;
-    }
-
+    public int getMove(){ return currentMove;}
     @Override
     public int getPoints(){return points;}
     @Override

@@ -4,15 +4,17 @@ import java.util.ArrayList;
 public class GameController {
 
     private Board board;
-    private TicTacToe game;
+    private GameType game;
 
-    public GameController(TicTacToe game){
+    public GameController(GameType game){
         this.game = game;
         this.board = game.getGameboard();
     }
+    public GameController(){
+    }
 
     public void updateViews(View view){
-        view.update();
+        //view.update();
     }
 
     public Player getPlayerOne(){
