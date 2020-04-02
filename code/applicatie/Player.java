@@ -8,4 +8,5 @@ public class Player {
     public  int getActive(){return -1;}
     public  void setPoints(int newActive){}
     public  void setSide(int setSide){}
+    public void setMove(int move){}
     public  void setBoard(Board newboard){}}

@@ -13,13 +13,14 @@ public class Human extends Player {
         comm = c;
         active = 0;
         side = -1;
-        points = 2;;
+        points = 2;
         currentMove = -1;
     }
 
-    public void setMove(int newCurrentMove){currentMove = newCurrentMove; }
     @Override
-    public int getMove(){return currentMove; }
+    public int getMove(){ return currentMove;}
+    public void setMove(int newMove){ currentMove = newMove;}
+
     @Override
     public int getPoints(){return points;}
     @Override
