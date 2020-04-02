@@ -7,8 +7,10 @@ import static java.lang.Integer.parseInt;
 public class Human extends Player {
     private int points, side, active;
     private Board board;
+    private Communication comm;
 
-    public Human(){
+    public Human(Communication c){
+        comm = c;
         active = 0;
         side = -1;
         points = 2;

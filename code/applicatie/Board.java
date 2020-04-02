@@ -1,9 +1,7 @@
 package code.applicatie;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 public class Board {
     private int boardSize;

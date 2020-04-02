@@ -1,3 +1,5 @@
+package code.applicatie;
+
 import java.util.ArrayList;
 
 public class TicTacToe extends GameType{
@@ -23,7 +25,8 @@ public class TicTacToe extends GameType{
             temp = players.get(0).getMove();
             p = players.get(0);
             System.out.println(temp);
-        }else{
+        }
+        else{
             turn = true;
             System.out.println("O's Turn = ");
             temp = players.get(1).getMove();
