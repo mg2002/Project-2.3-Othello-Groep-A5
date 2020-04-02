@@ -1,6 +1,4 @@
 package code.applicatie;
-
-import javax.swing.text.View;
 import java.io.IOException;
 import java.util.ArrayList;
 
