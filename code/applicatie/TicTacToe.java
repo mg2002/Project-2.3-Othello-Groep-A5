@@ -42,6 +42,13 @@ public class TicTacToe extends GameType{
         players.add(playerTwo);
     }
 
+    public Board getGameboard(){
+        return gameboard;
+    }
+    public boolean getTurn(){
+        return turn;
+    }
+    public ArrayList<Player> getPlayers(){return players;}
     public Boolean getEnd(){return end;}
 }
 

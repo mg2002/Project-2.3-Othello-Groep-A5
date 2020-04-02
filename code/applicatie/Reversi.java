@@ -46,5 +46,8 @@ public class Reversi extends GameType{
         players.add(playerTwo);
     }
 
+    public Board getGameboard(){
+        return gameboard;
+    }
     public Boolean getEnd(){return end;}
 }
