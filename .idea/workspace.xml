@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="728bda07-c0a0-47be-ab65-d94b303de792" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1ZyjSL5MltB22Nma0OvPwDSIT6H" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/code/applicatie" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\marco\OneDrive\Documenten\GitHub\Project-2.3-Othello-Groep-A5\code\applicatie" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.BKEView">
+    <configuration name="BKEView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="applicatie.BKEView" />
+      <module name="Project-2.3-Othello-Groep-A5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="applicatie.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Game" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Game" />
+      <module name="views" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameView" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="applicatie.GameView" />
+      <module name="Project-2.3-Othello-Groep-A5" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="applicatie.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unnamed" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="applicatie.Game" />
+      <module name="Project-2.3-Othello-Groep-A5" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Unnamed" />
+      <item itemvalue="Application.Game" />
+      <item itemvalue="Application.BKEView" />
+      <item itemvalue="Application.GameView" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.BKEView" />
+        <item itemvalue="Application.GameView" />
+        <item itemvalue="Application.Game" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="728bda07-c0a0-47be-ab65-d94b303de792" name="Default Changelist" comment="" />
+      <created>1585818226933</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1585818226933</updated>
+      <workItem from="1585818229663" duration="6312000" />
+      <workItem from="1585909020875" duration="2483000" />
+      <workItem from="1585919319861" duration="5797000" />
+      <workItem from="1585987131402" duration="616000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="485" y="70" key="#Unnamed" timestamp="1585818310617">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="485" y="70" key="#Unnamed/0.0.1536.824@0.0.1536.824" timestamp="1585818310617" />
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585818288204">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1585818288204" />
+    <state x="933" y="170" key="FileChooserDialogImpl" timestamp="1585917392172">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="933" y="170" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1585917392172" />
+    <state width="709" height="210" key="GridCell.Tab.0.bottom" timestamp="1585951433462">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="709" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1585951433462" />
+    <state width="709" height="210" key="GridCell.Tab.0.center" timestamp="1585951433462">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="709" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1585951433462" />
+    <state width="709" height="210" key="GridCell.Tab.0.left" timestamp="1585951433462">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="709" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1585951433462" />
+    <state width="709" height="210" key="GridCell.Tab.0.right" timestamp="1585951433462">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="709" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1585951433462" />
+    <state x="849" y="236" key="com.intellij.ide.util.TipDialog" timestamp="1585987131877">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="849" y="236" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1585987131877" />
+    <state x="209" y="32" key="new project wizard" timestamp="1585850798384">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="209" y="32" key="new project wizard/0.0.1536.824@0.0.1536.824" timestamp="1585850798384" />
+  </component>
+</project>

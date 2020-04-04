@@ -1,9 +1,7 @@
-package code.applicatie;
+package applicatie;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 public class Board {
     private int boardSize;
@@ -85,7 +83,6 @@ public class Board {
         tilesToTurn.clear();
         tilesToTurn.add(move);
         /*lookAround(move, player);// DIT GEDEELTE NAAR GAMETYPE VERPLAATSTEN VOOR REVERSI
-
         if(nodes.get(move).getPlayer() == null) {
             tilesToTurn.add(move);
         }*/

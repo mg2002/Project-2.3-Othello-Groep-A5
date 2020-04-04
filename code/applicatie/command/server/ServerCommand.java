@@ -1,4 +1,4 @@
-package code.applicatie.command.server;
+package applicatie.command.server;
 
 /**
  * Abstract class that other classes only need to extend from considering awaitServerCommand() in communication

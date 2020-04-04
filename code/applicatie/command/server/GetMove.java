@@ -1,9 +1,9 @@
-package code.applicatie.command.server;
+package applicatie.command.server;
 
 import java.util.Objects;
 
 /**
- * Stores information such as playerName, move and details into an Object when the server reports of the opponent having
+ * Stores information such as playerName, move and details into an Object when the applicatie reports of the opponent having
  * done a move
  *
  * @author Merel Foekens

@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="servermodules">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/server/servermodules/TicTacToeServer-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/server/servermodules/ReversiServer-1.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

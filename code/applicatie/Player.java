@@ -1,3 +1,5 @@
+package applicatie;
+
 
 public class Player {
     public  int getMove(){return -1;}
@@ -6,4 +8,5 @@ public class Player {
     public  int getActive(){return -1;}
     public  void setPoints(int newActive){}
     public  void setSide(int setSide){}
-    public  void setBoard(Board newboard){}
+    public void setMove(int move){}
+    public  void setBoard(Board newboard){}}
