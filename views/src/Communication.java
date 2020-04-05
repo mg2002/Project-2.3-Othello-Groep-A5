@@ -1,7 +1,11 @@
-import command.*;
+package views.src;
+
+import code.applicatie.*;
+import code.applicatie.command.*;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Queue;
 
 /**
  * Class Communication
@@ -166,6 +170,11 @@ public class Communication {
         } else {
             throw new IllegalStateException("Opgevraagde lijst bestaat niet");
         }
+    }
+
+    public void addToQueue(){
+        Queue<ServerCommand> queue = null;
+        while
     }
 
     /**

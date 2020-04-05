@@ -29,7 +29,7 @@ public class BKEView extends Application implements View {
         this.img1 = new Image("x.gif");
         this.img2 = new Image("o.gif");
         stackPanes = new HashMap<>();
-        game2 = new Game();
+        game2 = new Game(queue);
         game = game2.game;
     }
 

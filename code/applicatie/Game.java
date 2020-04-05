@@ -5,22 +5,28 @@ import code.applicatie.command.*;
 import code.applicatie.command.ServerCommand;
 
 import java.io.IOException;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class Game {
-    String aiName = "A5";
-    Scanner scanner = new Scanner(System.in);
-    Communication comm;
-    Board board;
-    GameType game;
-    Player ai, p1, p2;
-    ServerCommand cmd ;
-    Boolean wait;
+    private static Queue<ServerCommand> queue;
+    private String aiName = "A5";
+    private Scanner scanner = new Scanner(System.in);
+    private Communication comm;
+    private Board board;
+    private GameType game;
+    private Player ai, p1, p2;
+    private ServerCommand cmd;
+    private boolean wait;
+    private Queue<ServerCommand> queue2;
+    private ServerCommandQueue serverCommandQueue;
 
-    public Game() throws IOException {
+    public Game(Queue<ServerCommand> queue) throws IOException {
         board = new Board();
         game = new GameType();
         comm =  new Communication();
+        this.queue2 = queue;
+        serverCommandQueue = new ServerCommandQueue(this.queue2);
 
         while(!comm.logIn("A5")){}
         System.out.println("[LOGIN] Logged in");
@@ -45,6 +51,7 @@ public class Game {
 
         }
     }
+
     public void run(){
         while(!game.getEnd()){
             cmd = null;
@@ -66,7 +73,6 @@ public class Game {
                             board.doMove(Integer.parseInt(((GetMove) cmd).getMove()), p1);
                         }
                     }
-                    Thread.sleep(2000);
                 }
                 else if(cmd instanceof GameStart){
                     System.out.println("[PROCESSING] starting game");
@@ -123,7 +129,7 @@ public class Game {
     }
 
     public static void main(String[] agrs) throws IOException {
-        Game game = new Game();
+        Game game = new Game(queue);
         while(true) {
             game.run();
         }
@@ -181,7 +187,7 @@ public class Game {
 //                    System.out.println(e.getMessage());
 //                }
                 while(!comm.subscribe("Tic-tac-toe")){
-                    System.out.println("ERROR: did not recieve OK from applicatie after subscribing to Tic Tac Toe.");
+                    System.out.println("ERROR: did not receive OK from application after subscribing to Tic Tac Toe.");
                 }
                 System.out.println("[CREATION] created game Tic-tac-toe");
 
