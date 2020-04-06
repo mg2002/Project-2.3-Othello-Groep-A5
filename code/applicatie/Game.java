@@ -5,11 +5,10 @@ import code.applicatie.command.*;
 import code.applicatie.command.ServerCommand;
 
 import java.io.IOException;
-import java.util.Queue;
+import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Game {
-    private static Queue<ServerCommand> queue;
     private String aiName = "A5";
     private Scanner scanner = new Scanner(System.in);
     private Communication comm;
@@ -18,31 +17,33 @@ public class Game {
     private Player ai, p1, p2;
     private ServerCommand cmd;
     private boolean wait;
-    private Queue<ServerCommand> queue2;
+    private LinkedList<ServerCommand> linkedList;
     private ServerCommandQueue serverCommandQueue;
 
-    public Game(Queue<ServerCommand> queue) throws IOException {
+    public Game() throws IOException {
         board = new Board();
         game = new GameType();
-        comm =  new Communication();
-        this.queue2 = queue;
-        serverCommandQueue = new ServerCommandQueue(this.queue2);
+        comm = new Communication();
+        linkedList = new LinkedList<>();
+        serverCommandQueue = new ServerCommandQueue(this.linkedList);
+        serverCommandQueue.setReadFromServer(true);
 
-        while(!comm.logIn("A5")){}
+        while (!comm.logIn("A5")) {
+        }
         System.out.println("[LOGIN] Logged in");
 
         wait = true;
-        while (wait){
+        while (wait) {
             System.out.println("b");
-            cmd = comm.awaitServerCommand();
-            if(cmd != null){
+            cmd = serverCommandQueue.getServerCommand();
+            if (cmd != null) {
                 System.out.println(cmd.toString());
-                if(cmd instanceof GameStart){
+                if (cmd instanceof GameStart) {
                     assignGame(((GameStart) cmd).getGameName());
-                    if(((GameStart) cmd).getPlayerToMove().equals(aiName)){
+                    if (((GameStart) cmd).getPlayerToMove().equals(aiName)) {
                         System.out.println(((GameStart) cmd).getPlayerToMove());
                         assignSides("O");
-                    }else{
+                    } else {
                         assignSides("X");
                     }
                     wait = false;
@@ -52,76 +53,76 @@ public class Game {
         }
     }
 
-    public void run(){
-        while(!game.getEnd()){
+    public void run() {
+        while (!game.getEnd()) {
             cmd = null;
             try {
-                cmd = comm.awaitServerCommand();
-
-            }catch(Exception e){System.out.println(e.getMessage());}
+                cmd = serverCommandQueue.getServerCommand();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
 
             try {
 
-                if(cmd instanceof GetMove){
+                if (cmd instanceof GetMove) {
                     System.out.println("[PROCESSING] busy with other's move");
-                    if(((GetMove) cmd).getPlayerName().equals(aiName)){
+                    if (((GetMove) cmd).getPlayerName().equals(aiName)) {
 
-                    }else{
-                        if(p2 instanceof Human){
+                    } else {
+                        if (p2 instanceof Human) {
                             board.doMove(Integer.parseInt(((GetMove) cmd).getMove()), p2);
-                        }else{
+                        } else {
                             board.doMove(Integer.parseInt(((GetMove) cmd).getMove()), p1);
                         }
                     }
-                }
-                else if(cmd instanceof GameStart){
+                } else if (cmd instanceof GameStart) {
                     System.out.println("[PROCESSING] starting game");
-                    if(game instanceof GameType){
+                    if (game instanceof GameType) {
                     }
-                        board = new Board();
-                        assignGame(((GameStart) cmd).getGameName());
-                    if(((GameStart) cmd).getPlayerToMove().equals(aiName)){
+                    board = new Board();
+                    assignGame(((GameStart) cmd).getGameName());
+                    if (((GameStart) cmd).getPlayerToMove().equals(aiName)) {
                         System.out.println(((GameStart) cmd).getPlayerToMove());
                         assignSides("O");
-                    }else{
+                    } else {
                         assignSides("X");
                     }
-                }else if(cmd instanceof YourTurn){
+                } else if (cmd instanceof YourTurn) {
                     System.out.println("[PROCESSING] calculating move");
                     int move;
-                    if(p1 instanceof Human){
+                    if (p1 instanceof Human) {
                         move = p2.getMove();
-                        if(move == -1){
+                        if (move == -1) {
                             comm.forfeit();
-                        }else{
+                        } else {
                             board.doMove(move, p2);
 
-                            while(!comm.doMove(move)){
+                            while (!comm.doMove(move)) {
                                 System.out.println("ERROR: did not recieve OK from applicatie after sending move of ai");
                             }
                         }
-                    }else{
+                    } else {
                         move = p1.getMove();
-                        if(move == -1){
+                        if (move == -1) {
                             comm.forfeit();
-                        }else{
+                        } else {
                             board.doMove(move, p1);
 
-                            while(!comm.doMove(move)){
+                            while (!comm.doMove(move)) {
                                 System.out.println("ERROR: did not recieve OK from applicatie after sending move of ai");
                             }
                         }
                     }
                     System.out.println(move);
-                }else if(cmd instanceof GameEnd){
+                } else if (cmd instanceof GameEnd) {
                     System.out.println("[PROCESSING] ending game");
                     board = null;
                     System.out.println("What game would you like to play?");
                     wait = true;
-                }else {
+                } else {
                     System.out.println(cmd);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
 
@@ -129,22 +130,22 @@ public class Game {
     }
 
     public static void main(String[] agrs) throws IOException {
-        Game game = new Game(queue);
-        while(true) {
+        Game game = new Game();
+        while (true) {
             game.run();
         }
     }
 
-    public Boolean assignSides(String side){
-        if(side.equals("white") || side.equals("X") || side.equals("x")){
+    public Boolean assignSides(String side) {
+        if (side.equals("white") || side.equals("X") || side.equals("x")) {
             p1 = ai;
             p2 = new Human(comm);
             System.out.println("AI is white");
-        }else if(side.equals("black")|| side.equals("O") || side.equals("o") || side.equals("0")){
+        } else if (side.equals("black") || side.equals("O") || side.equals("o") || side.equals("0")) {
             p1 = new Human(comm);
             p2 = ai;
             System.out.println("AI is black");
-        }else{
+        } else {
             System.out.println("ERROR IN ASSIGNING SIDES. gave an illegal side argument");
             System.out.println("Given argument: " + side);
             return false;
@@ -163,21 +164,21 @@ public class Game {
     }
 
     private Boolean assignGame(String selectedGame) throws IOException {
-        switch(selectedGame){
-            case("Reversi"):
+        switch (selectedGame) {
+            case ("Reversi"):
                 game = new Reversi(board);
                 board.reversi();
                 ai = new Ai();
 
-                if(!comm.subscribe("Reversi")){
+                if (!comm.subscribe("Reversi")) {
                     System.out.println("ERROR: did not recieve OK from applicatie after subscribing to a Reversi.");
-                }else{
+                } else {
                     System.out.println("[CREATION] created game Reversi");
                 }
                 break;
-            case("t"):
-            case("T"):
-            case("Tic-tac-toe"):
+            case ("t"):
+            case ("T"):
+            case ("Tic-tac-toe"):
                 game = new TicTacToe(board);
                 board.ticTacToe();
                 ai = new Tai();
@@ -186,7 +187,7 @@ public class Game {
 //                }catch (Exception e){
 //                    System.out.println(e.getMessage());
 //                }
-                while(!comm.subscribe("Tic-tac-toe")){
+                while (!comm.subscribe("Tic-tac-toe")) {
                     System.out.println("ERROR: did not receive OK from application after subscribing to Tic Tac Toe.");
                 }
                 System.out.println("[CREATION] created game Tic-tac-toe");
@@ -198,7 +199,6 @@ public class Game {
         }
         return true;
     }
-
 
 
 }

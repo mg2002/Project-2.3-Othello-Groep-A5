@@ -5,7 +5,6 @@ import code.applicatie.command.GameStart;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Queue;
 
 /**
  * Class Communication
