@@ -57,10 +57,11 @@ public class Ai extends Player{
             System.out.println("ERROR. Have not been given a side to play as");
             return 0;
         }else{
-            if(nextMove() != null){
-                return nextMove().getSpot();
+            Node n = nextMove();
+            if(n != null){
+                return n.getSpot();
             }
-            return 28;
+            return -1;
         }
     }
 
@@ -111,6 +112,9 @@ public class Ai extends Player{
         int newCol;
         int newRow;
         int newSpot;
+        if(spot == 29){
+            int b = 1+2;
+        }
         for(int i = 0; i < movement.size(); i++) {
             newCol = col + movement.get(i).get(0);
             if(newCol < 8 && newCol > -1){

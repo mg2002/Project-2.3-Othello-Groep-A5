@@ -8,8 +8,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Game {
-    String aiName = "A5";
-    Scanner scanner = new Scanner(System.in);
+    String aiName = "intelli";
     Communication comm;
     Board board;
     GameType game;
@@ -22,7 +21,7 @@ public class Game {
         game = new GameType();
         comm =  new Communication();
 
-        while(!comm.logIn("A5")){}
+        while(!comm.logIn(aiName)){}
         System.out.println("[LOGIN] Logged in");
 
         wait = true;
@@ -50,30 +49,27 @@ public class Game {
             cmd = null;
             try {
                 cmd = comm.awaitServerCommand();
-
+                board.getBoardState();
             }catch(Exception e){System.out.println(e.getMessage());}
 
             try {
-
                 if(cmd instanceof GetMove){
                     System.out.println("[PROCESSING] busy with other's move");
                     if(((GetMove) cmd).getPlayerName().equals(aiName)){
 
                     }else{
                         if(p2 instanceof Human){
-                            board.doMove(Integer.parseInt(((GetMove) cmd).getMove()), p2);
+                            game.doMove(Integer.parseInt(((GetMove) cmd).getMove()), p2);
                         }else{
-                            board.doMove(Integer.parseInt(((GetMove) cmd).getMove()), p1);
+                            game.doMove(Integer.parseInt(((GetMove) cmd).getMove()), p1);
                         }
                     }
                     Thread.sleep(2000);
                 }
                 else if(cmd instanceof GameStart){
                     System.out.println("[PROCESSING] starting game");
-                    if(game instanceof GameType){
-                    }
-                        board = new Board();
-                        assignGame(((GameStart) cmd).getGameName());
+                    board = new Board();
+                    assignGame(((GameStart) cmd).getGameName());
                     if(((GameStart) cmd).getPlayerToMove().equals(aiName)){
                         System.out.println(((GameStart) cmd).getPlayerToMove());
                         assignSides("O");
@@ -88,8 +84,7 @@ public class Game {
                         if(move == -1){
                             comm.forfeit();
                         }else{
-                            board.doMove(move, p2);
-
+                            game.doMove(move, p2);
                             while(!comm.doMove(move)){
                                 System.out.println("ERROR: did not recieve OK from applicatie after sending move of ai");
                             }
@@ -99,7 +94,7 @@ public class Game {
                         if(move == -1){
                             comm.forfeit();
                         }else{
-                            board.doMove(move, p1);
+                            game.doMove(move, p1);
 
                             while(!comm.doMove(move)){
                                 System.out.println("ERROR: did not recieve OK from applicatie after sending move of ai");
@@ -118,7 +113,6 @@ public class Game {
             }catch(Exception e){
                 System.out.println(e.getMessage());
             }
-
         }
     }
 

@@ -8,6 +8,8 @@ public class Reversi extends GameType{
     private ArrayList<Player> players;
     private Boolean turn, end;
     private Communication comm;
+    private ArrayList<ArrayList<Integer>> movement = new ArrayList<>();// x, y
+    private ArrayList<Integer> tilesToTurn = new ArrayList<>();// x, y
 
     public Reversi(Board newGameboard) throws IOException {
         gameboard = newGameboard;
@@ -16,10 +18,43 @@ public class Reversi extends GameType{
 
         comm = new Communication();
         players = new ArrayList<>(2);
+
+        ArrayList<Integer> up           = new ArrayList<>();
+        ArrayList<Integer> upRight      = new ArrayList<>();
+        ArrayList<Integer> upLeft       = new ArrayList<>();
+        ArrayList<Integer> right        = new ArrayList<>();
+        ArrayList<Integer> downRight    = new ArrayList<>();
+        ArrayList<Integer> down         = new ArrayList<>();
+        ArrayList<Integer> downLeft     = new ArrayList<>();
+        ArrayList<Integer> left         = new ArrayList<>();
+        up.add(0);
+        up.add(1);
+        upRight.add(1);
+        upRight.add(1);
+        upLeft.add(-1);
+        upLeft.add(1);
+        right.add(1);
+        right.add(0);
+        down.add(0);
+        down.add(-1);
+        downLeft.add(-1);
+        downLeft.add(-1);
+        downRight.add(1);
+        downRight.add(-1);
+        left.add(-1);
+        left.add(0);
+        movement.add(up);
+        movement.add(upRight);
+        movement.add(upLeft);
+        movement.add(right);
+        movement.add(downRight);
+        movement.add(down);
+        movement.add(downLeft);
+        movement.add(left);
     }
 
 
-    public void step(){
+    public void step(){ // alleen voor human vs ai
         int temp = -1;
         gameboard.getBoardState();
         Player p;
@@ -36,14 +71,71 @@ public class Reversi extends GameType{
             temp = players.get(1).getMove();
             p =players.get(1);
         }
-
-        gameboard.doMove(temp, p);
+        doMove(temp, p);
         System.out.println("\u001b[0m");
+    }
+
+    public void doMove(int move, Player p) {
+        lookAround(move, p);
+        gameboard.doMove(tilesToTurn, p);
+    }
+    public void lookAround(int spot, Player player){
+        tilesToTurn.clear();
+        ArrayList<Node> nodes = gameboard.getNodes();
+        int row = (int) Math.floor(spot/8);
+        int col = spot%8;
+        int newCol;
+        int newRow;
+        for(int i = 0; i < movement.size(); i++) {
+            newCol = col + movement.get(i).get(0);
+            if(newCol < 8 && newCol > -1){
+                newRow = row + movement.get(i).get(1);
+                if(newRow < 8 && newRow > -1){
+                    if(nodes.get(spot).getPlayer() == null){
+                        tilesToTurn.add(spot);
+                        ArrayList<Integer> moves = isLegalMove(movement.get(i), nodes, newCol, newRow, player);
+                        if(moves != null){
+                            tilesToTurn.addAll(moves);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public ArrayList<Integer> isLegalMove(ArrayList<Integer> move, ArrayList<Node> nodes, int col, int row, Player player){
+        ArrayList<Integer> possible = new ArrayList<>();
+        int possibleSpot;
+        while((col > -1 && col < 8) && (row > -1 && row< 8)){
+            possibleSpot = row*8 + col;
+            if(nodes.get(possibleSpot).getPlayer() == null){
+                possible.clear();
+                return possible;
+            }else{
+                if(player != null) {
+                    if (nodes.get(possibleSpot).getPlayer().getSide() == player.getSide()) {
+                        return possible;
+                    } else {
+                        possible.add(row * 8 + col);
+                        col = col + move.get(0);
+                        row = row + move.get(1);
+                    }
+                }
+            }
+        }
+        possible.clear();
+        return possible;
     }
 
     public void setPlayers(Player playerOne, Player playerTwo){
         players.add(playerOne);
         players.add(playerTwo);
+
+        //Asing the middle nodes to players
+        gameboard.setNode(27,players.get(0));
+        gameboard.setNode(36,players.get(0));
+        gameboard.setNode(28,players.get(1));
+        gameboard.setNode(35,players.get(1));
     }
 
     public Board getGameboard(){
