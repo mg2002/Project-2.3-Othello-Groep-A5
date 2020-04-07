@@ -1,3 +1,5 @@
+package applicatie;
+
 import java.util.ArrayList;
 
 public class GameType {
@@ -62,6 +64,5 @@ public class GameType {
         gameboard.doMove(temp, p);
         System.out.println("\u001b[0m");
     }
-
     public Boolean getEnd(){return end;}
 }

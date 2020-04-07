@@ -61,14 +61,13 @@ public class Tai implements Player{
      * this method is called on a specific Node, which gives it a value based on favor.
      * A node with a higher value means that making a move on this Node gives the Player a better chance of winning.
      *
-     * @param node
-     * @param depth
-     * @param isMaxing
-     * @param legitNodes
-     * @return  value of the Node
+     * @param node is the Node on which the method is called. Algorithm starts from here on
+     * @param depth the limit of child nodes searched.
+     * @param isMaxing  checking for each call for what Player you are picking a Node
+     *                  for a maximizing Player, the algorithm picks the child Node with highest value
+     * @return  value of the highest (or lowest) (child) Node
      */
-    public int minimax(Node node, int depth, boolean isMaxing, HashMap<Integer, Node> legitNodes) {
-        HashMap<Integer, Node> legitNodesClone = legitNodes;
+    public int minimax(Node node, int depth, boolean isMaxing) {
         // if the root node is given, or winning move is found { return static value of the position }
         if (depth <= 0 || isWinningMove(node.getSpot())) {
             return node.getValue();
@@ -76,8 +75,8 @@ public class Tai implements Player{
         }
         if (isMaxing) { // Player's turn who wins by high evaluation
             int maxEval = -99999; // if Player finds move with higher eval, saves value for comparison
-            for (Map.Entry<Integer, Node> entry : legitNodesClone.entrySet()) {
-                int childEval = minimax(entry.getValue(), depth -1, false, legitNodesClone);
+            for (Map.Entry<Integer, Node> entry : legitNodes.entrySet()) {
+                int childEval = minimax(entry.getValue(), depth -1, false);
                 maxEval = Math.max(maxEval, childEval);
                 // int alpha = Math.max(alpha, childEval);
                 // if (beta <= alpha) { break; }
@@ -86,8 +85,8 @@ public class Tai implements Player{
         }
         else { // Player's turn who wins by low evaluation
             int minEval = 99999; // if Player finds move with lower eval, saves value for comparison
-            for (Map.Entry<Integer, Node> entry : legitNodesClone.entrySet()) {
-                int childEval = minimax(entry.getValue(), depth -1, true, legitNodesClone);
+            for (Map.Entry<Integer, Node> entry : legitNodes.entrySet()) {
+                int childEval = minimax(entry.getValue(), depth -1, true);
                 minEval = Math.min(minEval, childEval);
                 // int beta = Math.max(beta, childEval);
                 // if (beta <= alpha) { break; }
@@ -97,6 +96,7 @@ public class Tai implements Player{
     }
     
     private boolean isWinningMove(int spot) {
+        // implemented in Andre's branch
         return false;
     }
     
@@ -199,16 +199,10 @@ public class Tai implements Player{
     }
 
     private Boolean isSide(int i){
-        if(i == 1 || i == 3 || i == 5 || i == 7){
-            return true;
-        }
-        return false;
+        return i == 1 || i == 3 || i == 5 || i == 7;
     }
     private Boolean isCorner(int i){
-        if(i == 0 || i == 2 || i == 6 || i == 8){
-            return true;
-        }
-        return false;
+        return i == 0 || i == 2 || i == 6 || i == 8;
     }
 
     @Override
@@ -218,7 +212,7 @@ public class Tai implements Player{
     @Override
     public int getActive(){return active;}
     
-    public HashMap<Integer, Node> getLegitNodes() { return legitNodes; }
+    // public HashMap<Integer, Node> getLegitNodes() { return legitNodes; }
     
     @Override
     public void setPoints(int newActive){active = newActive;}

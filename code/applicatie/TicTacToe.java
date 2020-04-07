@@ -1,3 +1,5 @@
+package applicatie;
+
 import java.util.ArrayList;
 
 public class TicTacToe {

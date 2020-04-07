@@ -1,3 +1,5 @@
+package applicatie;
+
 public interface Player {
     public int getMove();
     public int getPoints();
