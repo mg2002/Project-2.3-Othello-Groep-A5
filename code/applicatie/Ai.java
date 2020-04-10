@@ -73,14 +73,17 @@ public class Ai extends Player{
             }else {
                 int row = (int) Math.floor(entry.getKey()/8);
                 int col = entry.getKey()%8;
-                if ((row == 1 || row == 6) || col == 2 || col == 7) {
-                    entry.getValue().setValue(-24);
-                } else if ((row == 0 || row == 7) && (col == 0 || col == 7)) {
-                    if (entry.getValue().getValue() < 99) {
-                        entry.getValue().setValue(99);
-                    }
-                } else {
-                    entry.getValue().setValue(5);
+
+                if((row == 0 || row == 7) && (col == 0 || col == 7)){
+                    entry.getValue().setValue(16);
+                }else if(((row == 1 || row == 6) && (col == 0 || col == 7)) || ((row == 0 || row == 7) && (col == 1 || col == 6))){// spaces around corners except the diagonal
+                    entry.getValue().decValue(-4);
+                }else if((row == 1 || row == 6) && (col == 1 ||  col == 6)){//the diagonal
+                    entry.getValue().decValue(-2);
+                }else if (row == 0 || row == 7 || col == 0 || col == 7) {//edges
+                    entry.getValue().addValue(1);
+                }else{
+                    entry.getValue().addValue(1);
                 }
                 if(entry.getValue().getValue() > highest.getValue()){
                     highest = entry.getValue();
@@ -174,5 +177,6 @@ public class Ai extends Player{
     @Override
     public void setSide(int newSide){side = newSide;}
     public void setBoard(Board newBoard){board = newBoard;}
+    public HashMap<Integer,Node> getLegitNodes(){return legitNodes;};
 
 }

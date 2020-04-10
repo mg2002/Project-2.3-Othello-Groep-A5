@@ -21,7 +21,7 @@ import java.net.Socket;
  * @version 1.2
  */
 public class Communication {
-    private static final String serverHost = "localhost";
+    private static final String serverHost = "145.33.225.170";
     private static final int port = 7789;
     private final Socket socket = new Socket(serverHost, port);
     private PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
@@ -122,7 +122,7 @@ public class Communication {
     public boolean doMove(int pos) throws IOException {
         String sendMessage = String.format("move %s", pos);
         writeLine(sendMessage);
-        return readLine().equals("OK");
+        return true;
     }
 
     /**

@@ -5,10 +5,12 @@ import code.applicatie.command.*;
 import code.applicatie.command.ServerCommand;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Game {
-    String aiName = "intelli";
+    String aiName = "A5";
     Communication comm;
     Board board;
     GameType game;
@@ -27,6 +29,15 @@ public class Game {
         wait = true;
         while (wait){
             System.out.println("b");
+            //To challenge a player
+            //Begin
+            //comm.getList("playerlist");
+//            comm.sendChallenge("ITsTime1","Reversi");
+//            wait = false;
+//            game = new Reversi(board);
+            //End
+            //To not challange a player
+            //Begin
             cmd = comm.awaitServerCommand();
             if(cmd != null){
                 System.out.println(cmd.toString());
@@ -40,10 +51,18 @@ public class Game {
                     }
                     wait = false;
                 }
+                else if(cmd instanceof ChallengeReceived){
+                    System.out.println("[PROCESSING] Accepting challenge");
+                    comm.challengeAccept(((ChallengeReceived) cmd).getChallengeNum());
+                }
             }
-
+            //End
         }
     }
+
+    /**
+     * wacht eindeloos op berichten van de server
+     */
     public void run(){
         while(!game.getEnd()){
             cmd = null;
@@ -64,7 +83,11 @@ public class Game {
                             game.doMove(Integer.parseInt(((GetMove) cmd).getMove()), p1);
                         }
                     }
-                    Thread.sleep(2000);
+//                    Thread.sleep(2000);
+                }
+                else if(cmd instanceof ChallengeReceived){
+                    System.out.println("[PROCESSING] Accepting challenge");
+                    comm.challengeAccept(((ChallengeReceived) cmd).getChallengeNum());
                 }
                 else if(cmd instanceof GameStart){
                     System.out.println("[PROCESSING] starting game");
@@ -113,13 +136,6 @@ public class Game {
             }catch(Exception e){
                 System.out.println(e.getMessage());
             }
-        }
-    }
-
-    public static void main(String[] agrs) throws IOException {
-        Game game = new Game();
-        while(true) {
-            game.run();
         }
     }
 
@@ -187,6 +203,11 @@ public class Game {
         return true;
     }
 
-
+    public static void main(String[] agrs) throws IOException {
+        Game game = new Game();
+        while(true) {
+            game.run();
+        }
+    }
 
 }

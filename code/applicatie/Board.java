@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Board {
-    private int boardSize;
+    private int boardSize, pointsPlayerOne, pointsPlayerTwo;
     private Player pOne, pTwo;
     private ArrayList<Node> nodes;
     private HashSet<Integer> tilesToTurn = new HashSet<>();
@@ -45,6 +45,19 @@ public class Board {
         System.out.println("\u001b[0m");
     }
 
+    public void calculatePoints(){
+        pointsPlayerOne = 0;
+        pointsPlayerTwo = 0;
+
+        for(int i = 0; i < nodes.size(); i++) {
+            if(nodes.get(i).getPlayer().getSide() == 0){
+                pointsPlayerOne +=1;
+            }else if(nodes.get(i).getPlayer().getSide() == 1){
+                pointsPlayerTwo +=1;
+            }
+        }
+    }
+
     public void doMove(ArrayList<Integer> moves, Player player){
         for(int i : moves){
             nodes.get(i).setPlayer(player);
@@ -63,6 +76,8 @@ public class Board {
     }
     public Player getPlayerOne(){return pOne;}
     public Player getPlayerTwo(){return pTwo;}
+    public int getPointsPlayerOne(){return pointsPlayerOne;}
+    public int getPointsPlayerTwo(){return pointsPlayerTwo;}
 
     public ArrayList<Node> getNodes(){return nodes;}
     public void setNode(int spot, Player player){
