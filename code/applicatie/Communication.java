@@ -22,6 +22,7 @@ import java.net.Socket;
  */
 public class Communication {
     private static final String serverHost = "145.33.225.170";
+//    private static final String serverHost = "localhost";
     private static final int port = 7789;
     private final Socket socket = new Socket(serverHost, port);
     private PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);

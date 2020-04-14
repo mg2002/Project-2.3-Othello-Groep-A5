@@ -32,7 +32,7 @@ public class Game {
             //To challenge a player
             //Begin
             //comm.getList("playerlist");
-//            comm.sendChallenge("ITsTime1","Reversi");
+//            comm.sendChallenge("FieldWillWin","Reversi");
 //            wait = false;
 //            game = new Reversi(board);
             //End
@@ -102,6 +102,7 @@ public class Game {
                 }else if(cmd instanceof YourTurn){
                     System.out.println("[PROCESSING] calculating move");
                     int move;
+                    Thread.sleep(500);
                     if(p1 instanceof Human){
                         move = p2.getMove();
                         if(move == -1){
@@ -139,6 +140,12 @@ public class Game {
         }
     }
 
+    /**
+     *
+     * @param side Of de ai Zwart of wit is
+     *             geeft de players de goede zijde
+     * @return of het goed gegaan is
+     */
     public Boolean assignSides(String side){
         if(side.equals("white") || side.equals("X") || side.equals("x")){
             p1 = ai;
@@ -166,6 +173,13 @@ public class Game {
         return true;
     }
 
+    /**
+     *
+     * @param selectedGame de game die ze spelen | supported games are: Othello, TicTactoe
+     *                     initialiseert de goede game object
+     * @return og het goed gegaan is of niet
+     * @throws IOException
+     */
     private Boolean assignGame(String selectedGame) throws IOException {
         switch(selectedGame){
             case("Reversi"):

@@ -6,12 +6,18 @@ import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * ai van Reversi
+ */
 public class Ai extends Player{
     private int points, side, active;
     private Board board;
     private ArrayList<ArrayList<Integer>> movement = new ArrayList<>();// x, y
     private HashMap<Integer, Node> legitNodes = new HashMap<>();
 
+    /**
+     * initialiseerd alle moggelijke directies
+     */
     public Ai(){
         active = 1;
         side = -1; //0 == white, 1 == black, -1 == no side asinged
@@ -50,6 +56,10 @@ public class Ai extends Player{
         movement.add(left);
     }
 
+    /**
+     * geeft de zet de ai wilt doen
+     * @return de zet de ai wilt doen
+     */
     @Override
     public int getMove(){
         String temp;
@@ -65,35 +75,44 @@ public class Ai extends Player{
         }
     }
 
+    /**
+     * vind de zet met de hoogste waarde
+     * @return
+     */
     public Node findHighestTile(){
         Node highest = null;
         for(Map.Entry<Integer, Node> entry : legitNodes.entrySet()) {
             if(highest == null){
                 highest = entry.getValue();
             }else {
+
                 int row = (int) Math.floor(entry.getKey()/8);
                 int col = entry.getKey()%8;
-
-                if((row == 0 || row == 7) && (col == 0 || col == 7)){
-                    entry.getValue().setValue(16);
-                }else if(((row == 1 || row == 6) && (col == 0 || col == 7)) || ((row == 0 || row == 7) && (col == 1 || col == 6))){// spaces around corners except the diagonal
-                    entry.getValue().decValue(-4);
-                }else if((row == 1 || row == 6) && (col == 1 ||  col == 6)){//the diagonal
-                    entry.getValue().decValue(-2);
-                }else if (row == 0 || row == 7 || col == 0 || col == 7) {//edges
-                    entry.getValue().addValue(1);
-                }else{
-                    entry.getValue().addValue(1);
+                if ((row == 1 || row == 6) || col == 1 || col == 6) {
+                    entry.getValue().setValue(-24);
+                } else if ((row == 0 || row == 7) && (col == 0 || col == 7)) {
+                    if (entry.getValue().getValue() < 99) {
+                        entry.getValue().setValue(99);
+                    }
+                } else {
+                    entry.getValue().setValue(5);
                 }
                 if(entry.getValue().getValue() > highest.getValue()){
                     highest = entry.getValue();
                 }
             }
+        }
+        for(Map.Entry<Integer, Node> entry : legitNodes.entrySet()) {
             entry.getValue().setValue(0);
         }
+        legitNodes.clear();
         return highest;
     }
 
+    /**
+     * zoekt mogelijke zetten en returened de zet met de hoogte waarde
+     * @return
+     */
     public Node nextMove(){
         ArrayList<Node> nodes = board.getNodes();
         legitNodes.clear();
@@ -104,7 +123,7 @@ public class Ai extends Player{
     }
 
     /**
-     *
+     * kijkt of zet legaal is
      * @param spot origionele locatie om te kijken of de node een legeale move kan zijn
      * @param nodes alle nodes in de board.
      */
@@ -135,7 +154,7 @@ public class Ai extends Player{
     }
 
     /**
-     *
+     *  of er fisches van de andere speler tussen zitten en dus legaal is
      * @param move the direction of the mnove in relaltion to the origional spot
      * @param nodes the nodes array
      * @param col colum of the spot to look at

@@ -11,6 +11,9 @@ public class Board {
     public Board(){
     }
 
+    /**
+     * initialiseert voor reversi
+     */
     public void reversi(){
         boardSize = 8;
         nodes = new ArrayList<>(64);
@@ -25,6 +28,9 @@ public class Board {
         }
     }
 
+    /**
+     * initiliseerd voor tictactoe
+     */
     public void ticTacToe(){
         boardSize = 3;
         nodes = new ArrayList<>(boardSize*boardSize);

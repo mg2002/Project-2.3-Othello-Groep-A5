@@ -6,6 +6,7 @@ public class Node {
     private int value;
 
     public Node(int newSpot){
+        value = 0;
         spot = newSpot;
     }
 

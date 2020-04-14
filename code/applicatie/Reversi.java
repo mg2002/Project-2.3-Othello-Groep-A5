@@ -53,8 +53,10 @@ public class Reversi extends GameType{
         movement.add(left);
     }
 
-
-    public void step(){ // alleen voor human vs ai
+    /**
+     * doet een stap voor de ai of human | dit wordt alleen in combinatie met de gui gebruikt
+     */
+    public void step(){
         int temp = -1;
         gameboard.getBoardState();
         Player p;
@@ -75,36 +77,21 @@ public class Reversi extends GameType{
         System.out.println("\u001b[0m");
     }
 
-    public int MiniMaxStep(){ // alleen voor human vs ai
-        int temp = -1;
-        gameboard.getBoardState();
-        Player p;
-        if(turn){
-            //Ai's turn
-            turn = false;
-            System.out.println("AI's Turn = ");
-            temp = players.get(0).getMove();
-            p = players.get(0);
-            System.out.println(temp);
-        }else{
-            turn = true;
-            System.out.println("Humans Turn = ");
-            temp = players.get(1).getMove();
-            p =players.get(1);
-        }
-        if(temp == -1){
-
-        }else{
-            doMove(temp, p);
-        }
-        System.out.println("\u001b[0m");
-        return temp;
-    }
-
+    /**
+     * de stap dat de ai wil gaan maken
+     * @param move de move dat gedaan wordt
+     * @param p de speler die de move doet
+     */
     public void doMove(int move, Player p) {
         lookAround(move, p);
         gameboard.doMove(tilesToTurn, p);
     }
+
+    /**
+     * kijk naar mogelijke fisches die omgezet moetten worden
+     * @param spot
+     * @param player
+     */
     public void lookAround(int spot, Player player){
         tilesToTurn.clear();
         ArrayList<Node> nodes = gameboard.getNodes();
@@ -129,6 +116,15 @@ public class Reversi extends GameType{
         }
     }
 
+    /**
+     * of de fisches in een bepaalde rigting omgezet moetten worden
+     * @param move de move directie waarin gekeken wordt
+     * @param nodes lijst met alle nodes
+     * @param col de col
+     * @param row de row
+     * @param player de player die de move wilt maken
+     * @return of de fisches omgezet moetten worden
+     */
     public ArrayList<Integer> isLegalMove(ArrayList<Integer> move, ArrayList<Node> nodes, int col, int row, Player player){
         ArrayList<Integer> possible = new ArrayList<>();
         int possibleSpot;
@@ -153,6 +149,11 @@ public class Reversi extends GameType{
         return possible;
     }
 
+    /**
+     * zet de spelers goed in de array en zegt tegen de board klasse welke spele wit is en welke swart
+     * @param playerOne
+     * @param playerTwo
+     */
     public void setPlayers(Player playerOne, Player playerTwo){
         players.add(playerOne);
         players.add(playerTwo);
@@ -164,6 +165,10 @@ public class Reversi extends GameType{
         gameboard.setNode(35,players.get(1));
     }
 
+    /**
+     * returend de instansie van board
+     * @return de board isntancie
+     */
     public Board getGameboard(){
         return gameboard;
     }
