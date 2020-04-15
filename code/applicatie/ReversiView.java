@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class ReversiView extends Application implements View {
     public static ReversiView view;
@@ -26,6 +27,8 @@ public class ReversiView extends Application implements View {
     private GameType gameType;
     public Game reversi;
     private HashMap<Integer, StackPane> panes;
+    private Label label1;
+    private Label label2;
     public ReversiView() throws IOException {
         this.icon1 = new Circle(20);
         this.icon2 = new Circle(20);
@@ -37,6 +40,10 @@ public class ReversiView extends Application implements View {
         this.panes = new HashMap<>();
         this.controller = new GameController(gameType);
         this.pane = drawBoard();
+        this.label1 = new Label("Player\n" +
+                "Score: " + 2);
+        this.label2 = new Label("CPU\n" +
+                "Score: " + 2);
     }
     public Circle getPlayerIcon(){
         Player p = controller.getPlayers().get(0);
@@ -62,13 +69,26 @@ public class ReversiView extends Application implements View {
             return new Circle(20);
         }
     }
-    public Label getLabel1(){
+    public void setLabel1(){
         Player p = controller.getPlayers().get(0);
-        if(p instanceof Human && p.getSide() == 0){
-            return new Label("Player");
+        if(p instanceof Ai && p.getSide() == 1){
+            label1.setText("CPU\n" +
+                    "Score: " + p.getPoints());
         }
         else{
-            return new Label("CPU1");
+            label1.setText("Player\n" +
+                    "Score: " + p.getPoints());
+        }
+    }
+    public void setLabel2(){
+        Player p = controller.getPlayers().get(1);
+        if(p instanceof Human && p.getSide() == 0){
+            label2.setText("Player\n" +
+                    "Score: " + p.getPoints());
+        }
+        else{
+            label2.setText("CPU\n" +
+                    "Score: " + p.getPoints());
         }
     }
 
@@ -105,18 +125,31 @@ public class ReversiView extends Application implements View {
         menuBar.getMenus().addAll(fileMenu, helpMenu);
         VBox vb = new VBox(menuBar);
         bp.setTop(vb);
-        box.getChildren().addAll(new Label("Player1"),
+        box.getChildren().addAll(label1,
                 icon1,
-                new Label("CPU1"),
+                label2,
                 icon2);
         bp.setCenter(pane);
         bp.setBottom(box);
         stage.setScene(new Scene(bp, 330, 420));
         stage.setTitle("Reversi");
         stage.show();
+        if(controller.getPlayers().get(1) instanceof Ai && controller.getPlayers().get(1).getSide() == 1){
+            gameType.MiniMaxStep();
+        }
+        setPoints();
     }
     public void start(Stage stage){
         login(stage);
+    }
+
+    public boolean checkEnd(){
+        for(Map.Entry<Integer, StackPane> entry : panes.entrySet()){
+            if(entry.getValue().getChildren().size() < 2){
+                return false;
+            }
+        }
+        return true;
     }
 
     public void instructions(){
@@ -196,10 +229,20 @@ public class ReversiView extends Application implements View {
                         }
                         gameType.MiniMaxStep();
                         gameType.MiniMaxStep();
-                        //gameType.MiniMaxStep();
-                        //gameType.MiniMaxStep();
-                        //drawPlayerIcon();
-                        //drawAIIcon();
+                        if(checkEnd()){
+                            Stage stg = new Stage();
+                            BorderPane bp = new BorderPane();
+                            Button b = new Button("OK");
+                            b.setOnAction(a -> Platform.exit());
+                            bp.setTop(new Label("The game has been finished.\n" +
+                                    getWinner()));
+                            bp.setCenter(b);
+                            stg.setScene(new Scene(bp, 200, 150));
+                            stg.setTitle("Game end");
+                            stg.show();
+                        }
+                        setPoints();
+                        setLabels();
                     }
                 });
                 rectangle.setFill(Color.GREEN);
@@ -215,6 +258,32 @@ public class ReversiView extends Application implements View {
     public boolean checkPane(int s){
         Player p = controller.getNodes().get(s).getPlayer();
         return p == null;
+    }
+
+    public void setLabels(){
+        setLabel1();
+        setLabel2();
+    }
+
+    /**
+     * Set player points to display the correct score on the view.
+     */
+    public void setPoints(){
+        Player p1 = controller.getPlayers().get(0);
+        Player p2 = controller.getPlayers().get(1);
+        p1.setPoints(0);
+        p2.setPoints(0);
+        ArrayList<applicatie.Node> nodes = controller.getNodes();
+        for(applicatie.Node node : nodes){
+            if(node.getPlayer() != null){
+                if(node.getPlayer() == p1){
+                    p1.setPoints(p1.getPoints() + 1);
+                }
+                if(node.getPlayer() == p2){
+                    p2.setPoints(p2.getPoints() + 1);
+                }
+            }
+        }
     }
 
     /**
@@ -252,5 +321,19 @@ public class ReversiView extends Application implements View {
         bp.setBottom(ok);
         stage.setScene(new Scene(bp, 400, 250));
         stage.show();
+    }
+
+    public String getWinner(){
+        Player p1 = controller.getPlayers().get(0);
+        Player p2 = controller.getPlayers().get(1);
+        if((p1 instanceof Human && p1.getPoints() > p2.getPoints()) || (p2 instanceof Human && p2.getPoints() > p1.getPoints())){
+            return "Player wins!";
+        }
+        else if((p1 instanceof Human && p1.getPoints() < p2.getPoints()) || (p2 instanceof Human && p2.getPoints() < p1.getPoints())){
+            return "CPU wins!";
+        }
+        else{
+            return "It's a draw!";
+        }
     }
 }

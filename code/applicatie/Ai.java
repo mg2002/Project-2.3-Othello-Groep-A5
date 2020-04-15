@@ -173,7 +173,7 @@ public class Ai extends Player{
     @Override
     public int getActive(){return active;}
     @Override
-    public void setPoints(int newActive){active = newActive;}
+    public void setPoints(int points){this.points = points;}
     @Override
     public void setSide(int newSide){side = newSide;}
     public void setBoard(Board newBoard){board = newBoard;}
