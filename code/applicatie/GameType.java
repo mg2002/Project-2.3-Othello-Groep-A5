@@ -7,6 +7,9 @@ public class GameType {
         System.out.println("ERROR: Subclass has't implemented getEnd().");
         return true;
     }
+    public void doMove(int moves, Player player) {
+        System.out.println("ERROR: Subclass has't implemented doMove().");
+    }
     public boolean getTurn(){
         System.out.println("ERROR: Subclass has't implemented getTurn().");
         return true;

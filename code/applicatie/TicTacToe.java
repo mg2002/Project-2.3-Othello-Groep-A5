@@ -37,6 +37,9 @@ public class TicTacToe extends GameType{
         System.out.println("\u001b[0m");
     }
 
+    public void doMove(int move, Player p){
+        gameboard.doMove(move, p);
+    }
     public void setPlayers(Player playerOne, Player playerTwo){
         players.add(playerOne);
         players.add(playerTwo);

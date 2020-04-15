@@ -6,12 +6,18 @@ import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * ai van Reversi
+ */
 public class Ai extends Player{
     private int points, side, active;
     private Board board;
     private ArrayList<ArrayList<Integer>> movement = new ArrayList<>();// x, y
     private HashMap<Integer, Node> legitNodes = new HashMap<>();
 
+    /**
+     * initialiseerd alle moggelijke directies
+     */
     public Ai(){
         active = 1;
         side = -1; //0 == white, 1 == black, -1 == no side asinged
@@ -50,6 +56,10 @@ public class Ai extends Player{
         movement.add(left);
     }
 
+    /**
+     * geeft de zet de ai wilt doen
+     * @return de zet de ai wilt doen
+     */
     @Override
     public int getMove(){
         String temp;
@@ -57,22 +67,28 @@ public class Ai extends Player{
             System.out.println("ERROR. Have not been given a side to play as");
             return 0;
         }else{
-            if(nextMove() != null){
-                return nextMove().getSpot();
+            Node n = nextMove();
+            if(n != null){
+                return n.getSpot();
             }
-            return 28;
+            return -1;
         }
     }
 
+    /**
+     * vind de zet met de hoogste waarde
+     * @return
+     */
     public Node findHighestTile(){
         Node highest = null;
         for(Map.Entry<Integer, Node> entry : legitNodes.entrySet()) {
             if(highest == null){
                 highest = entry.getValue();
             }else {
+
                 int row = (int) Math.floor(entry.getKey()/8);
                 int col = entry.getKey()%8;
-                if ((row == 1 || row == 6) || col == 2 || col == 7) {
+                if ((row == 1 || row == 6) || col == 1 || col == 6) {
                     entry.getValue().setValue(-24);
                 } else if ((row == 0 || row == 7) && (col == 0 || col == 7)) {
                     if (entry.getValue().getValue() < 99) {
@@ -85,11 +101,18 @@ public class Ai extends Player{
                     highest = entry.getValue();
                 }
             }
+        }
+        for(Map.Entry<Integer, Node> entry : legitNodes.entrySet()) {
             entry.getValue().setValue(0);
         }
+        legitNodes.clear();
         return highest;
     }
 
+    /**
+     * zoekt mogelijke zetten en returened de zet met de hoogte waarde
+     * @return
+     */
     public Node nextMove(){
         ArrayList<Node> nodes = board.getNodes();
         legitNodes.clear();
@@ -100,7 +123,7 @@ public class Ai extends Player{
     }
 
     /**
-     *
+     * kijkt of zet legaal is
      * @param spot origionele locatie om te kijken of de node een legeale move kan zijn
      * @param nodes alle nodes in de board.
      */
@@ -111,6 +134,9 @@ public class Ai extends Player{
         int newCol;
         int newRow;
         int newSpot;
+        if(spot == 29){
+            int b = 1+2;
+        }
         for(int i = 0; i < movement.size(); i++) {
             newCol = col + movement.get(i).get(0);
             if(newCol < 8 && newCol > -1){
@@ -128,7 +154,7 @@ public class Ai extends Player{
     }
 
     /**
-     *
+     *  of er fisches van de andere speler tussen zitten en dus legaal is
      * @param move the direction of the mnove in relaltion to the origional spot
      * @param nodes the nodes array
      * @param col colum of the spot to look at
@@ -170,5 +196,6 @@ public class Ai extends Player{
     @Override
     public void setSide(int newSide){side = newSide;}
     public void setBoard(Board newBoard){board = newBoard;}
+    public HashMap<Integer,Node> getLegitNodes(){return legitNodes;};
 
 }

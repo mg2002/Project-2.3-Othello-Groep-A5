@@ -6,6 +6,7 @@ public class Node {
     private int value;
 
     public Node(int newSpot){
+        value = 0;
         spot = newSpot;
     }
 
@@ -29,6 +30,8 @@ public class Node {
     public int getValue(){return value;}
     public void setValue(int newValue){value = newValue;}
     public void addValue(int newValue){value += newValue;}
+    public void decValue(int newValue){value -= newValue;}
+
     public int getSpot(){return spot;}
     public void setSpot(int newSpot){spot = newSpot;}
     public Player getPlayer(){return player;}
