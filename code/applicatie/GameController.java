@@ -6,16 +6,23 @@ public class GameController {
 
     private Board board;
     private GameType game;
+    private ReversiView view;
 
     public GameController(GameType game){
         this.game = game;
         this.board = game.getGameboard();
+        this.view = ReversiView.view;
     }
     public GameController(){
     }
 
-    public void updateViews(View view){
-        //view.update();
+    public void update(Player player){
+        if(player instanceof Human){
+            view.drawPlayerIcon();
+        }
+        else{
+            view.drawAIIcon();
+        }
     }
 
     public Player getPlayerOne(){

@@ -3,7 +3,6 @@ package applicatie;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-//import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -19,8 +18,8 @@ import java.util.*;
 public class BKEView extends Application implements View {
     private Image img1;
     private Image img2;
-    private GameType game;
-    private Game game2;
+    GameType game;
+    Game game2;
     private GameController controller;
     private HashMap<Integer, StackPane> stackPanes;
     private GridPane pane;
@@ -48,7 +47,7 @@ public class BKEView extends Application implements View {
 
     public ImageView getAIIcon(){
         Player ai = controller.getPlayers().get(0);
-        if(controller.getPlayers().get(0) instanceof Tai){
+        if(ai instanceof Tai && ai.getSide() == 0){
             return new ImageView(img1);
         }
         else{
@@ -56,26 +55,9 @@ public class BKEView extends Application implements View {
         }
     }
     public void start(Stage stage){
-        Scanner scanner = new Scanner(System.in);
-//        System.out.println("What side am i?");
-//        while (!game2.asignSides(scanner.next())) {
-//
-//        }
         setController();
         BorderPane bp = new BorderPane();
         pane = getGrid();
-
-        /*HBox hbox = new HBox(20);
-        hbox.setPadding(new Insets(20, 0, 20, 93.75));
-        Label turnLabel;
-        if(controller.getPlayers().get(0) instanceof Human){
-            turnLabel = new Label(getTurn()?"X's Turn!":"O's Turn!");
-        }
-        else{
-            turnLabel = new Label("asd");
-            //turnLabel = new Label(getTurn()?"O's Turn!":"X's Turn!");
-        }
-        hbox.getChildren().add(turnLabel);*/
         HBox hBox = new HBox(20);
         hBox.setPadding(new Insets(15, 12, 15, 12));
         ImageView player1icon = new ImageView(img1);
@@ -113,7 +95,6 @@ public class BKEView extends Application implements View {
         VBox vb = new VBox(menuBar);
         bp.setTop(vb);
         bp.setCenter(pane);
-        //bp.setRight(hbox);
         bp.setBottom(hBox);
         stage.setScene(new Scene(bp, 300, 400));
         stage.setTitle("Tic-tac-toe");
@@ -202,16 +183,7 @@ public class BKEView extends Application implements View {
         stage.show();
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         launch(args);
-    }
-
-    private class ThreeInARow{
-        private StackPane tile1;
-        private StackPane tile2;
-
-        public ThreeInARow(StackPane tile1, StackPane tile2, StackPane tile3){
-
-        }
     }
 }

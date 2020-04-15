@@ -1,3 +1,5 @@
+<?language javascript?>
+
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
@@ -6,6 +8,36 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="applicatie.Reversi" prefHeight="400.0" prefWidth="600.0">
-
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.Circle?>
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="applicatie.GameView" prefHeight="400.0" prefWidth="600.0">
+    <top>
+        <VBox layoutY="1" xmlns:fx="http://javafx.com/fxml">
+            <MenuBar visible="true">
+                <Menu fx:id="FileMenu" text="File">
+                    <MenuItem fx:id="NewGame" text="New Game"/>
+                    <MenuItem fx:id="Quit" text="Quit" onAction="#quit"/>
+                </Menu>
+                <Menu fx:id="HelpMenu" text="Help">
+                    <MenuItem fx:id="Instructions" text="Instructions" onAction="#instructions"/>
+                </Menu>
+            </MenuBar>
+        </VBox>
+    </top>
+    <center>
+        <GridPane fx:id="VisualBoard">
+        </GridPane>
+    </center>
+    <bottom>
+        <HBox layoutY="1" xmlns:fx="http://javafx.com/fxml" spacing="20">
+            <padding>
+                <Insets top="15" right="12" bottom="15" left="12"/>
+            </padding>
+            <Label text="Player 1"/>
+            <Circle fx:id="Circle1" radius="20"/>
+            <Label text="Player 2"/>
+            <Circle fx:id="Circle2" radius="20" fill="white" stroke="black"/>
+        </HBox>
+    </bottom>
 </BorderPane>

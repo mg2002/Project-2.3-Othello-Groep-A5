@@ -1,6 +1,5 @@
 package applicatie;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameType {
@@ -8,18 +7,20 @@ public class GameType {
         System.out.println("ERROR: Subclass has't implemented getEnd().");
         return true;
     }
+    public void doMove(int moves, Player player) {
+        System.out.println("ERROR: Subclass has't implemented doMove().");
+    }
     public boolean getTurn(){
         System.out.println("ERROR: Subclass has't implemented getTurn().");
         return true;
+    }
+    public void setTurn(boolean turn){
+        System.out.println("ERROR: Subclass hasn't implemented setTurn().");
     }
     public ArrayList<Player> getPlayers(){
         ArrayList<Player> a = new ArrayList<>();
         System.out.println("ERROR: Subclass has't implemented getPlayers().");
         return a;
-    }
-    public Board getGameboard(){
-        System.out.println("ERROR: Subclass has't implemented getGameboard().");
-        return new Board();
     }
     public void step(){
         System.out.println("ERROR: Subclass has't implemented step().");
@@ -27,4 +28,13 @@ public class GameType {
     public void setPlayers(Player playerOne, Player playerTwo){
         System.out.println("ERROR: Subclass has't implemented setPlayers().");
     }
+    public Board getGameboard(){
+        System.out.println("ERROR: Subclass has't implemented getGameboard().");
+        return new Board();
+    }
+
+    public int MiniMaxStep(){
+        return 0;
+    }
+
 }

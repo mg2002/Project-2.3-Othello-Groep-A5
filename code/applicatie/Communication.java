@@ -5,6 +5,9 @@ import applicatie.command.server.*;
 import java.io.*;
 import java.net.Socket;
 
+import java.io.*;
+import java.net.Socket;
+
 /**
  * Class Communication
  * Communicates with applicatie. Sends commands to applicatie such as logIn, subscribe, forfeit, doMove.
@@ -121,7 +124,7 @@ public class Communication {
     public boolean doMove(int pos) throws IOException {
         String sendMessage = String.format("move %s", pos);
         writeLine(sendMessage);
-        return readLine().equals("OK");
+        return true;
     }
 
     /**
