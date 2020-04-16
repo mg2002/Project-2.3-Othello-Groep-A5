@@ -15,6 +15,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * This class is the JavaFX application for the view for TicTacToe.
+ * It is also the general user interface.
+ */
 public class BKEView extends Application implements View {
     private Image img1;
     private Image img2;
@@ -32,9 +36,17 @@ public class BKEView extends Application implements View {
         game = game2.game;
     }
 
+    /**
+     * Sets the controller for the game.
+     */
     public void setController(){
         controller = new GameController(game);
     }
+
+    /**
+     * Get icon of player
+     * @return icon of player
+     */
     public ImageView getPlayerIcon(){
         Player human = controller.getPlayers().get(0);
         if(human instanceof Human && human.getSide() == 0){
@@ -45,6 +57,10 @@ public class BKEView extends Application implements View {
         }
     }
 
+    /**
+     * Get icon of AI
+     * @return icon of AI
+     */
     public ImageView getAIIcon(){
         Player ai = controller.getPlayers().get(0);
         if(ai instanceof Tai && ai.getSide() == 0){
@@ -54,6 +70,10 @@ public class BKEView extends Application implements View {
             return new ImageView(img2);
         }
     }
+    /**
+     * Launches the JavaFX application and the game.
+     * @param stage the stage passed in the function that will be shown.
+     */
     public void start(Stage stage){
         setController();
         BorderPane bp = new BorderPane();
@@ -101,6 +121,10 @@ public class BKEView extends Application implements View {
         stage.show();
     }
 
+    /**
+     * Draw the board for the view.
+     * @return the grid board.
+     */
     public GridPane getGrid(){
         GridPane pane = new GridPane();
         for(int i=0; i<3; i++){
@@ -133,12 +157,18 @@ public class BKEView extends Application implements View {
         return pane;
     }
 
-    public boolean getTurn(){
-        return game.getTurn();
-    }
+    /**
+     * Checks to see if the tile that is pressed has no player on its node.
+     * @param s number of tile
+     * @return true if no player, false if there is a player on the node.
+     */
     public boolean checkPane(int s){
         return controller.getNodes().get(s).getPlayer() == null;
     }
+
+    /**
+     * Draws the icons for the player.
+     */
     public void drawPlayerIcon(){
         if(!game.getEnd()){
             ArrayList<Node> nodes = controller.getNodes();
@@ -149,6 +179,10 @@ public class BKEView extends Application implements View {
             }
         }
     }
+
+    /**
+     * Draws the icons for the AI.
+     */
     public void drawAIIcon(){
         if(!game.getEnd()){
             ArrayList<Node> nodes = controller.getNodes();
@@ -160,6 +194,9 @@ public class BKEView extends Application implements View {
         }
     }
 
+    /**
+     * Opens the window with the instructions.
+     */
     public void instructions(){
         Stage stage = new Stage();
         BorderPane b = new BorderPane();
@@ -183,6 +220,10 @@ public class BKEView extends Application implements View {
         stage.show();
     }
 
+    /**
+     * The main method used to launch the application (as a standalone one)
+     * @param args
+     */
     public static void main(String[] args){
         launch(args);
     }

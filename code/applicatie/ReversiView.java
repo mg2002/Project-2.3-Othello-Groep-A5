@@ -2,6 +2,7 @@ package applicatie;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -18,6 +19,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * This class is the JavaFX application for the view for Reversi.
+ * It is also the general user interface.
+ */
 public class ReversiView extends Application implements View {
     public static ReversiView view;
     private Circle icon1;
@@ -29,22 +34,35 @@ public class ReversiView extends Application implements View {
     private HashMap<Integer, StackPane> panes;
     private Label label1;
     private Label label2;
+    private long turnTimeLimit = 20000;
+    private long elapsedTime = System.currentTimeMillis();
+    private BorderPane bp;
+
+    /**
+     * Constructor of the Reversi view.
+     * @throws IOException
+     */
     public ReversiView() throws IOException {
         this.icon1 = new Circle(20);
         this.icon2 = new Circle(20);
-        icon2.setStroke(Color.BLACK);
-        icon2.setFill(Color.WHITE);
+        icon1.setStroke(Color.BLACK);
+        icon1.setFill(Color.WHITE);
         view = this; // singleton design pattern
         this.reversi = new Game();
         this.gameType = reversi.game;
         this.panes = new HashMap<>();
         this.controller = new GameController(gameType);
+        this.bp = new BorderPane();
         this.pane = drawBoard();
         this.label1 = new Label("Player\n" +
                 "Score: " + 2);
         this.label2 = new Label("CPU\n" +
                 "Score: " + 2);
     }
+    /**
+     * Set the icon that represents the side that the player is on.
+     * @return a circle icon.
+     */
     public Circle getPlayerIcon(){
         Player p = controller.getPlayers().get(0);
         if(p instanceof Human && p.getSide() == 0){
@@ -57,6 +75,11 @@ public class ReversiView extends Application implements View {
             return new Circle(20);
         }
     }
+
+    /**
+     * Set the icon that represents the side that the AI is on.
+     * @return a circle icon.
+     */
     public Circle getAIIcon(){
         Player p = controller.getPlayers().get(0);
         if(p instanceof Ai && p.getSide() == 0){
@@ -69,9 +92,12 @@ public class ReversiView extends Application implements View {
             return new Circle(20);
         }
     }
+    /**
+     * Set the first label so it corresponds to the players' side.
+     */
     public void setLabel1(){
-        Player p = controller.getPlayers().get(0);
-        if(p instanceof Ai && p.getSide() == 1){
+        Player p = controller.getPlayerOne();
+        if(p instanceof Ai){
             label1.setText("CPU\n" +
                     "Score: " + p.getPoints());
         }
@@ -80,9 +106,13 @@ public class ReversiView extends Application implements View {
                     "Score: " + p.getPoints());
         }
     }
+
+    /**
+     * Set the second label so it corresponds to the players' side.
+     */
     public void setLabel2(){
-        Player p = controller.getPlayers().get(1);
-        if(p instanceof Human && p.getSide() == 0){
+        Player p = controller.getPlayerTwo();
+        if(p instanceof Human){
             label2.setText("Player\n" +
                     "Score: " + p.getPoints());
         }
@@ -92,29 +122,17 @@ public class ReversiView extends Application implements View {
         }
     }
 
+    /**
+     * Launches the JavaFX application and the game.
+     * @param stage the stage passed in the function that will be shown.
+     */
     public void launchGame(Stage stage){
-        BorderPane bp = new BorderPane();
         HBox box = new HBox(20);
         box.setPadding(new Insets(15, 12, 15, 12));
         Menu fileMenu = new Menu("File");
         Menu helpMenu = new Menu("Help");
         MenuItem newGame = new MenuItem("New Game");
-        newGame.setOnAction(e -> {
-            gameType.getGameboard().resetNodes();
-            for(int i=0; i<8; i++){
-                for(int j=0; j<8; j++){
-                    StackPane stp = (StackPane) this.pane.getChildren().get(j*8+i);
-                    if(stp.getChildren().size() > 1){
-                        for(Iterator<Node> it = stp.getChildren().iterator(); it.hasNext();){
-                            javafx.scene.Node child = it.next();
-                            it.remove();
-                        }
-                    }
-                }
-            }
-            this.pane = drawBoard();
-            bp.setCenter(pane);
-        });
+        newGame.setOnAction(e -> newGame());
         MenuItem quit = new MenuItem("Quit");
         quit.setOnAction(e -> Platform.exit());
         MenuItem helpItem = new MenuItem("Instructions");
@@ -140,9 +158,13 @@ public class ReversiView extends Application implements View {
         setPoints();
     }
     public void start(Stage stage){
-        login(stage);
+        launchGame(stage);
     }
 
+    /**
+     * Checks to see if all tiles are filled to see if the game ends.
+     * @return true when all tiles have a circle on them.
+     */
     public boolean checkEnd(){
         for(Map.Entry<Integer, StackPane> entry : panes.entrySet()){
             if(entry.getValue().getChildren().size() < 2){
@@ -152,6 +174,30 @@ public class ReversiView extends Application implements View {
         return true;
     }
 
+    /**
+     * Starts a new game by resetting the board tiles.
+     */
+    public void newGame(){
+        gameType.getGameboard().resetNodes();
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                StackPane stp = (StackPane) this.pane.getChildren().get(j*8+i);
+                if(stp.getChildren().size() > 1){
+                    for(Iterator<Node> it = stp.getChildren().iterator(); it.hasNext();){
+                        javafx.scene.Node child = it.next();
+                        it.remove();
+                    }
+                }
+            }
+        }
+        setLabels();
+        this.pane = drawBoard();
+        bp.setCenter(pane);
+    }
+
+    /**
+     * Opens the window with the instructions.
+     */
     public void instructions(){
         Stage stage = new Stage();
         BorderPane b = new BorderPane();
@@ -233,7 +279,10 @@ public class ReversiView extends Application implements View {
                             Stage stg = new Stage();
                             BorderPane bp = new BorderPane();
                             Button b = new Button("OK");
-                            b.setOnAction(a -> Platform.exit());
+                            b.setOnAction(a -> {
+                                newGame();
+                                stg.close();
+                            });
                             bp.setTop(new Label("The game has been finished.\n" +
                                     getWinner()));
                             bp.setCenter(b);
@@ -255,11 +304,20 @@ public class ReversiView extends Application implements View {
         updateViews();
         return pane;
     }
+
+    /**
+     * Check if there is no player on a spot.
+     * @param s the node to check on.
+     * @return p == null == true
+     */
     public boolean checkPane(int s){
         Player p = controller.getNodes().get(s).getPlayer();
         return p == null;
     }
 
+    /**
+     * Update the scores
+     */
     public void setLabels(){
         setLabel1();
         setLabel2();
@@ -287,7 +345,7 @@ public class ReversiView extends Application implements View {
     }
 
     /**
-     * Draw icons
+     * Draw icons (update the views everytime a move has been done)
      */
     public void updateViews(){
         drawPlayerIcon();
@@ -295,45 +353,23 @@ public class ReversiView extends Application implements View {
     }
 
     /**
-     * This is the login prompt before logging into the game (not working because
-     * the client automatically waits for server to start tournament after AI has
-     * logged in)
-     * @param stg stage to appear after the login has been done.
+     * Returns the winner of the current game.
+     * @return String representing the winning player
      */
-    public void login(Stage stg){
-        Stage stage = new Stage();
-        BorderPane bp = new BorderPane();
-        Label l = new Label("Type a username: ");
-        TextField field = new TextField();
-        String loginName = field.getText();
-        Button ok = new Button("Login");
-        ok.setOnAction(e -> {
-            try {
-                if(reversi.comm.logIn(loginName)){
-                    launchGame(stg);
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
-        bp.setTop(l);
-        bp.setCenter(field);
-        bp.setBottom(ok);
-        stage.setScene(new Scene(bp, 400, 250));
-        stage.show();
-    }
-
     public String getWinner(){
-        Player p1 = controller.getPlayers().get(0);
-        Player p2 = controller.getPlayers().get(1);
+        Player p1 = controller.getPlayerOne();
+        Player p2 = controller.getPlayerTwo();
         if((p1 instanceof Human && p1.getPoints() > p2.getPoints()) || (p2 instanceof Human && p2.getPoints() > p1.getPoints())){
-            return "Player wins!";
+            return "Player wins!\n" +
+                    p1.getPoints() + " points vs " + p2.getPoints() + " points.";
         }
         else if((p1 instanceof Human && p1.getPoints() < p2.getPoints()) || (p2 instanceof Human && p2.getPoints() < p1.getPoints())){
-            return "CPU wins!";
+            return "CPU wins!\n" +
+                    p1.getPoints() + " points vs " + p2.getPoints() + " points.";
         }
-        else{
+        else if(p1.getPoints() == p2.getPoints()){
             return "It's a draw!";
         }
+        return "";
     }
 }

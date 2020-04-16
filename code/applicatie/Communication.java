@@ -23,8 +23,8 @@ import java.net.Socket;
  * @version 1.2
  */
 public class Communication {
-    private static final String serverHost = "localhost";
-    private static final int port = 7789;
+    private String serverHost = "localhost";
+    private int port = 7789;
     private final Socket socket = new Socket(serverHost, port);
     private PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
     private BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));

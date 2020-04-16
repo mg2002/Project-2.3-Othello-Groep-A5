@@ -202,6 +202,14 @@ public class Game {
         return true;
     }
 
+    public void setComm(Communication comm){
+        this.comm = comm;
+    }
+
+    public Communication getComm(){
+        return comm;
+    }
+
     public static void main(String[] agrs) throws IOException {
         Application.launch(ReversiView.class);
         Game game = new Game();
