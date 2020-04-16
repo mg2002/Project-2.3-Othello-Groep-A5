@@ -91,7 +91,15 @@ public class Board {
     }
     public void resetNodes(){
         for(Node n : nodes){
-            n.reset();
+            if(n.getSpot() == 27 || n.getSpot() == 36){
+                n.setPlayer(pOne);
+            }
+            else if(n.getSpot() == 28 || n.getSpot() == 35){
+                n.setPlayer(pTwo);
+            }
+            else{
+                n.reset();
+            }
         }
     }
 }
