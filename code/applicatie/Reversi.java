@@ -76,6 +76,34 @@ public class Reversi extends GameType{
         doMove(temp, p);
         System.out.println("\u001b[0m");
     }
+    
+    public int MiniMaxStep(){ // alleen voor human vs ai
+        int temp = -1;
+        gameboard.getBoardState();
+        Player p;
+        if(turn){
+            //Ai's turn
+            turn = false;
+            System.out.println("AI's Turn = ");
+            temp = players.get(0).getMove();
+            p = players.get(0);
+            System.out.println(temp);
+        }else{
+            turn = true;
+            System.out.println("Humans Turn = ");
+            temp = players.get(1).getMove();
+            p =players.get(1);
+            System.out.println(temp);
+        }
+        if(temp == -1){
+
+        }else{
+            doMove(temp, p);
+            controller.update(p);
+        }
+        System.out.println("\u001b[0m");
+        return temp;
+    }
 
     /**
      * de stap dat de ai wil gaan maken
@@ -173,4 +201,11 @@ public class Reversi extends GameType{
         return gameboard;
     }
     public Boolean getEnd(){return end;}
+    public ArrayList<Player> getPlayers(){
+        return players;
+    }
+    public boolean getTurn(){return turn; }
+    public void setTurn(boolean turn){
+        this.turn = turn;
+    }
 }
