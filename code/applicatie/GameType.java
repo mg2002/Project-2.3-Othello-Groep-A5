@@ -29,4 +29,7 @@ public class GameType {
         System.out.println("ERROR: Subclass has't implemented getGameboard().");
         return new Board();
     }
+    public int MiniMaxStep(){
+        return 0;
+    }
 }
