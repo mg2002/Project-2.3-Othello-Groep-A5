@@ -218,6 +218,7 @@ public class Game {
     }
 
     public static void main(String[] agrs) throws IOException {
+        Application.launch(ReversiView.class);
         Game game = new Game();
         while(true) {
             game.run();
