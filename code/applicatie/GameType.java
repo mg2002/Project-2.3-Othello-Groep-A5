@@ -1,4 +1,4 @@
-package code.applicatie;
+package applicatie;
 
 import java.util.ArrayList;
 
@@ -28,5 +28,8 @@ public class GameType {
     public Board getGameboard(){
         System.out.println("ERROR: Subclass has't implemented getGameboard().");
         return new Board();
+    }
+    public int MiniMaxStep(){
+        return 0;
     }
 }
