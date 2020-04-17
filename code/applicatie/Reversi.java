@@ -1,4 +1,4 @@
-package code.applicatie;
+package applicatie;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,6 +10,7 @@ public class Reversi extends GameType{
     private Communication comm;
     private ArrayList<ArrayList<Integer>> movement = new ArrayList<>();// x, y
     private ArrayList<Integer> tilesToTurn = new ArrayList<>();// x, y
+    private GameController controller;
 
     public Reversi(Board newGameboard) throws IOException {
         gameboard = newGameboard;
@@ -18,6 +19,7 @@ public class Reversi extends GameType{
 
         comm = new Communication();
         players = new ArrayList<>(2);
+        controller = new GameController(this);
 
         ArrayList<Integer> up           = new ArrayList<>();
         ArrayList<Integer> upRight      = new ArrayList<>();
@@ -133,9 +135,9 @@ public class Reversi extends GameType{
                 newRow = row + movement.get(i).get(1);
                 if(newRow < 8 && newRow > -1){
                     if(nodes.get(spot).getPlayer() == null){
-                        tilesToTurn.add(spot);
                         ArrayList<Integer> moves = isLegalMove(movement.get(i), nodes, newCol, newRow, player);
-                        if(moves != null){
+                        if(moves != null && moves.size() > 0){
+                            tilesToTurn.add(spot);
                             tilesToTurn.addAll(moves);
                         }
                     }
@@ -201,4 +203,12 @@ public class Reversi extends GameType{
         return gameboard;
     }
     public Boolean getEnd(){return end;}
+    public ArrayList<Player> getPlayers(){
+        return players;
+    }
+    public boolean getTurn(){return turn; }
+    public void setTurn(boolean turn){
+        this.turn = turn;
+    }
 }
+
