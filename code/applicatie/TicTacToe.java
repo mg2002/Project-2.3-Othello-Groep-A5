@@ -1,4 +1,4 @@
-package code.applicatie;
+package applicatie;
 
 import java.util.ArrayList;
 
@@ -54,5 +54,3 @@ public class TicTacToe extends GameType{
     public ArrayList<Player> getPlayers(){return players;}
     public Boolean getEnd(){return end;}
 }
-
-
