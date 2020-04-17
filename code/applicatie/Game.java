@@ -1,8 +1,9 @@
-package code.applicatie;
+package applicatie;
 
-import code.applicatie.command.GetMove;
-import code.applicatie.command.*;
-import code.applicatie.command.ServerCommand;
+import applicatie.command.GetMove;
+import applicatie.command.*;
+import applicatie.command.ServerCommand;
+import javafx.application.Application;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -218,6 +219,7 @@ public class Game {
     }
 
     public static void main(String[] agrs) throws IOException {
+        Application.launch(ReversiView.class);
         Game game = new Game();
         while(true) {
             game.run();
