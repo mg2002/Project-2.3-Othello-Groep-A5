@@ -1,7 +1,7 @@
-package code.applicatie;
+package applicatie;
 
-import code.applicatie.command.*;
-import code.applicatie.command.GameStart;
+import applicatie.command.*;
+import applicatie.command.GameStart;
 
 import java.io.*;
 import java.net.Socket;
