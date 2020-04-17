@@ -1,4 +1,4 @@
-package code.applicatie;
+package applicatie;
 
 
 public class Player {
