@@ -1,4 +1,4 @@
-package code.applicatie;
+package applicatie;
 
 import javafx.application.Application;
 import javafx.application.Platform;
