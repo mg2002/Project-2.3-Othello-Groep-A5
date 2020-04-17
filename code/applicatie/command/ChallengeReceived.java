@@ -1,4 +1,4 @@
-package code.applicatie.command;
+package applicatie.command;
 
 import java.util.Objects;
 
