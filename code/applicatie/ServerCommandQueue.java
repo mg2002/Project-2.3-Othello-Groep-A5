@@ -1,6 +1,6 @@
-package code.applicatie;
+package applicatie;
 
-import code.applicatie.command.ServerCommand;
+import applicatie.command.ServerCommand;
 
 import java.io.IOException;
 import java.util.LinkedList;

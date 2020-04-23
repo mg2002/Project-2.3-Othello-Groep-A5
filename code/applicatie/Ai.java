@@ -192,6 +192,8 @@ public class Ai extends Player{
     @Override
     public int getActive(){return active;}
     @Override
+    public Board getBoard() { return board; }
+    @Override
     public void setPoints(int newActive){active = newActive;}
     @Override
     public void setSide(int newSide){side = newSide;}

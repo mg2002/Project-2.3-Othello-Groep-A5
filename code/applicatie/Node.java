@@ -4,6 +4,7 @@ public class Node {
     private int spot;
     private Player player;
     private int value;
+    private boolean isWinning;
 
     public Node(int newSpot){
         value = 0;
@@ -37,4 +38,6 @@ public class Node {
     public Player getPlayer(){return player;}
     public void setPlayer(Player newPlayer){player = newPlayer;}
     public void reset(){player = null;value = 0;}
+    
+    public boolean isWinning() { return isWinning; }
 }

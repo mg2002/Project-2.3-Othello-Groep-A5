@@ -6,6 +6,7 @@ public class Player {
     public  int getPoints(){return -1;}
     public  int getSide(){return -1;}
     public  int getActive(){return -1;}
+    public Board getBoard() { return null; }
     public  void setPoints(int newActive){}
     public  void setSide(int setSide){}
     public void setMove(int move){}
