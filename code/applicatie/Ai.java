@@ -127,7 +127,6 @@ public class Ai extends Player{
      * @param spot origionele locatie om te kijken of de node een legeale move kan zijn
      * @param nodes alle nodes in de board.
      */
-
     public void lookAround(int spot, ArrayList<Node> nodes){
         int row = (int) Math.floor(spot/8);
         int col = spot%8;
@@ -183,6 +182,68 @@ public class Ai extends Player{
             }
         }
         return false;
+    }
+    
+    /**
+     * GetBestNode berekent met minimax wat de meest gunstige zet zal zijn.
+     * De Node die van minimax de hoogste waarde krijgt wordt teruggegeven
+     */
+    public Node getBestNode() {
+        Node bestNode = new Node(0);
+        for (Map.Entry<Integer, Node> entry : getLegitNodes().entrySet()) {
+            entry.setValue(minimax(entry.getValue(), getBoard(), 5, true));
+            Node contender = entry.getValue();
+            if (contender.getValue() > bestNode.getValue()) {
+                bestNode = contender;
+            }
+        }
+        return bestNode;
+    }
+    
+    /**
+     * Minimax is een methode die de waarde van een move teruggeeft. Dit doet hij door -depth- aantal keer de beste
+     * move voor zichzelf en zijn tegenstander te berekenen.
+     * Elke keer als hij een move berekent, maakt hij deze zet op een tempBoard, waarna hij kan gaan kijken wat de
+     * beste volgende move is.
+     *
+     * @param move the move after which minimax calculates the best move for the player
+     * @param board the board that is copies to make a hypothetical move on
+     * @param depth the depth in which minimax calculates possible outcomes
+     * @param isMaxing geeft aan of de speler voor wie de methode wordt aangeroepen de maximaliserende speler is.
+     * @return de waarde van de Node die waarschijnlijk tot winst leidt
+     */
+    public Node minimax(Node move, Board board, int depth, boolean isMaxing) {
+        Node maxEval = new Node(0);
+        if (depth <= 0 || move.isWinning()) { return maxEval; }
+        // Probleem: nodes kunnen niet hun eigen waarde bepalen
+        
+        Board tempBoard = board;
+        // TODO make move on tempBoard
+        HashMap<Integer, Node> tempLegitNodes = new HashMap<>();
+        // TODO ai.lookAround() on tempBoard to add valid moves to tempLegitNodes
+        
+        if (isMaxing) {
+            maxEval.setValue(-1000);
+            // Probleem
+            for(Map.Entry<Integer, Node> childEntry : tempLegitNodes.entrySet()) {
+                Node childMove = childEntry.getValue();
+                Node eval = minimax(childMove, tempBoard, depth - 1, false);
+                maxEval.setValue(Math.max(maxEval.getValue(), eval.getValue()));
+            }
+            return maxEval;
+        }
+        
+        else {
+            Node minEval = new Node(0);
+            minEval.setValue(1000);
+            for(Map.Entry<Integer, Node> childEntry : tempLegitNodes.entrySet()) {
+                Node childMove = childEntry.getValue();
+                Node eval = minimax(childMove, tempBoard, depth - 1, true);
+                // TODO find a way to find lowest values Node for minimizing player
+                minEval.setValue(Math.min(minEval.getValue(), eval.getValue()));
+            }
+            return minEval;
+        }
     }
 
     @Override

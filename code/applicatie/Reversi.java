@@ -106,23 +106,6 @@ public class Reversi extends GameType{
         System.out.println("\u001b[0m");
         return temp;
     }
-
-//    public int minimax(int move, Board board, int depth, boolean maximizing) throws IOException {
-//        int maxEval = -1000;
-//        int minEval = 1000;
-//        Reversi tempReversi = new Reversi(board); // uses method from Reversi on a board that a move has been made on
-//
-//        if (depth <= 0 || getEnd()) {
-//            return 1; // return the static evaluation of move
-//        }
-//
-//        if (tempReversi.getTurn()) { // If the player making a move is the maximizing player:
-//            tempReversi.doMove(move, tempReversi.players.get(0));
-//            //for (Node move : tempReversi.legitNodes())
-//            maxEval = -1000;
-//        }
-//        return 1;
-//    }
     
     /**
      * de stap dat de ai wil gaan maken

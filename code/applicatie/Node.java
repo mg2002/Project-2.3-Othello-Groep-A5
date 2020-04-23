@@ -4,7 +4,7 @@ public class Node {
     private int spot;
     private Player player;
     private int value;
-    private boolean isWinning;
+    private boolean isWinning = false;
     
     /**
      * A node is a position a Player can make a move in, or has already played a move in
