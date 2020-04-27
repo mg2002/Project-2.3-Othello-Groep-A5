@@ -9,6 +9,7 @@ public class Board {
     private ArrayList<Node> nodes;
     private HashSet<Integer> tilesToTurn = new HashSet<>();
     public Board(){
+
     }
 
     /**
@@ -56,10 +57,12 @@ public class Board {
         pointsPlayerTwo = 0;
 
         for(int i = 0; i < nodes.size(); i++) {
-            if(nodes.get(i).getPlayer().getSide() == 0){
-                pointsPlayerOne +=1;
-            }else if(nodes.get(i).getPlayer().getSide() == 1){
-                pointsPlayerTwo +=1;
+            if(nodes.get(i).getPlayer() != null) {
+                if (nodes.get(i).getPlayer().getSide() == 0) {
+                    pointsPlayerOne += 1;
+                } else if (nodes.get(i).getPlayer().getSide() == 1) {
+                    pointsPlayerTwo += 1;
+                }
             }
         }
     }
@@ -86,6 +89,7 @@ public class Board {
     public int getPointsPlayerTwo(){return pointsPlayerTwo;}
 
     public ArrayList<Node> getNodes(){return nodes;}
+    public void setNodes(ArrayList<Node> n){nodes = (ArrayList<Node>)n.clone();}
     public void setNode(int spot, Player player){
         nodes.get(spot).setPlayer(player);
     }

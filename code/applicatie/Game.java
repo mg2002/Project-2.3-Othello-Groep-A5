@@ -11,7 +11,7 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class Game {
-    String aiName = "A5";
+    String aiName = "intelli";
     Communication comm;
     Board board;
     GameType game;
@@ -33,11 +33,12 @@ public class Game {
             //To challenge a player
             //Begin
             //comm.getList("playerlist");
-//            comm.sendChallenge("FieldWillWin","Reversi");
+//            comm.sendChallenge("A5","Reversi");
 //            wait = false;
 //            game = new Reversi(board);
             //End
             //To not challange a player
+
             //Begin
             cmd = comm.awaitServerCommand();
             if(cmd != null){
@@ -103,7 +104,7 @@ public class Game {
                 }else if(cmd instanceof YourTurn){
                     System.out.println("[PROCESSING] calculating move");
                     int move;
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                     if(p1 instanceof Human){
                         move = p2.getMove();
                         if(move == -1){
@@ -182,8 +183,23 @@ public class Game {
      * @throws IOException
      */
     private Boolean assignGame(String selectedGame) throws IOException {
+
         switch(selectedGame){
             case("Reversi"):
+
+//                Board b = new Board();
+//                Player p1 = new Ai();
+//                Player p2 = new Ai();
+//                b.setPlayerOne(p1);
+//                b.setPlayerTwo(p2);
+//
+//                p1.setSide(0);//white
+//                p2.setSide(1);//black
+//                p1.setBoard(b);
+//                p2.setBoard(b);
+//
+//                b.reversi();
+//                MinMax m = new MinMax(b);
                 game = new Reversi(board);
                 board.reversi();
                 ai = new Ai();
@@ -219,11 +235,14 @@ public class Game {
     }
 
     public static void main(String[] agrs) throws IOException {
-        Application.launch(ReversiView.class);
+        //Application.launch(ReversiView.class);
         Game game = new Game();
         while(true) {
             game.run();
         }
+
+//
+//        System.out.println(be+ "dfgdsfgsdfgsdfgsdfgsdfg");
     }
 
 }

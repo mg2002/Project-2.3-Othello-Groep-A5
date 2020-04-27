@@ -22,6 +22,7 @@ public class Ai extends Player{
         active = 1;
         side = -1; //0 == white, 1 == black, -1 == no side asinged
         points = 2;
+
         ArrayList<Integer> up           = new ArrayList<>();//movement[0]
         ArrayList<Integer> upRight      = new ArrayList<>();
         ArrayList<Integer> upLeft       = new ArrayList<>();
@@ -67,10 +68,14 @@ public class Ai extends Player{
             System.out.println("ERROR. Have not been given a side to play as");
             return 0;
         }else{
+//            MinMax mini = initializeMinimax();
+//            return mini.loop(3,this);
+
             Node n = nextMove();
-            if(n != null){
-                return n.getSpot();
+            if (n != null) {
+               return n.getSpot();
             }
+
             return -1;
         }
     }
@@ -82,22 +87,42 @@ public class Ai extends Player{
     public Node findHighestTile(){
         Node highest = null;
         for(Map.Entry<Integer, Node> entry : legitNodes.entrySet()) {
+            int row = (int) Math.floor(entry.getKey()/8);
+            int col = entry.getKey()%8;
+            if ((row == 1 || row == 6) || col == 1 || col == 6) {// 2e en 5e rij & 2e en 5e kolom
+                if(
+                        (row==1 && col == 0 && board.getNodes().get(0).getPlayer() == null) ||
+                        (row==1 && col == 1 && board.getNodes().get(0).getPlayer() == null)||
+                        (row==0 && col == 1 && board.getNodes().get(0).getPlayer() == null)||
+                        (row==1 && col == 7 && board.getNodes().get(7).getPlayer() == null) ||
+                        (row==1 && col == 6 && board.getNodes().get(7).getPlayer() == null)||
+                        (row==0 && col == 6 && board.getNodes().get(7).getPlayer() == null)||
+                        (row==6 && col == 0 && board.getNodes().get(56).getPlayer() == null) ||
+                        (row==6 && col == 1 && board.getNodes().get(56).getPlayer() == null)||
+                        (row==7 && col == 1 && board.getNodes().get(56).getPlayer() == null)||
+                        (row==6 && col == 6 && board.getNodes().get(63).getPlayer() == null) ||
+                        (row==6 && col == 7 && board.getNodes().get(63).getPlayer() == null)||
+                        (row==7 && col == 6 && board.getNodes().get(63).getPlayer() == null)
+                ){//vakken rond de hoeken
+                    entry.getValue().setValue(-30);
+                }else {
+                    entry.getValue().setValue(-24);
+                }
+            } else if ((row == 0 || row == 7) && (col == 0 || col == 7)) {
+                entry.getValue().setValue(99);
+            } else if(row == 0 || row == 7 || col ==0 || col == 7){
+                entry.getValue().setValue(6);
+            } else{
+                entry.getValue().setValue(5);
+            }
             if(highest == null){
                 highest = entry.getValue();
             }else {
-
-                int row = (int) Math.floor(entry.getKey()/8);
-                int col = entry.getKey()%8;
-                if ((row == 1 || row == 6) || col == 1 || col == 6) {
-                    entry.getValue().setValue(-24);
-                } else if ((row == 0 || row == 7) && (col == 0 || col == 7)) {
-                    if (entry.getValue().getValue() < 99) {
-                        entry.getValue().setValue(99);
-                    }
-                } else {
-                    entry.getValue().setValue(5);
-                }
                 if(entry.getValue().getValue() > highest.getValue()){
+
+                    if(entry.getValue().getValue() == -30){
+                        int b = 1+0;
+                    }
                     highest = entry.getValue();
                 }
             }
@@ -120,6 +145,18 @@ public class Ai extends Player{
             lookAround(foo, nodes);
         }
         return findHighestTile();
+    }
+    /**
+     * zoekt en returened mogelijke zetten
+     * @return
+     */
+    public HashMap<Integer, Node> getPossibleMoves(){
+        ArrayList<Node> nodes = board.getNodes();
+        legitNodes.clear();
+        for(int foo = 0; foo<nodes.size();foo++){
+            lookAround(foo, nodes);
+        }
+        return legitNodes;
     }
 
     /**
@@ -183,6 +220,23 @@ public class Ai extends Player{
             }
         }
         return false;
+    }
+
+    public MinMax initializeMinimax(){
+        Board b = new Board();
+        Player p1 = new Ai();
+        Player p2 = new Ai();
+        b.setPlayerOne(p1);
+        b.setPlayerTwo(p2);
+
+        p1.setSide(0);//white
+        p2.setSide(1);//black
+        p1.setBoard(b);
+        p2.setBoard(b);
+
+        b.reversi();
+        MinMax miniMax = new MinMax(b);
+        return miniMax;
     }
 
     @Override
